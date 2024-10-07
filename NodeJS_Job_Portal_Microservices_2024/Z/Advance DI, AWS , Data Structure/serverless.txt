@@ -1,0 +1,25 @@
+export const handler = async(event) => {
+ 
+ if (event.path === '/api/product') {    
+       const response ={
+            statusCode:200,
+             body: JSON.stringify({
+                 prdName:"monitor",
+                 price:"300$"
+             })
+        };
+    return response;
+ }else {
+    // Return a 404 error if the request path is not recognized
+    const response = {
+      statusCode: 404,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: 'Not Found' }),
+    };
+
+    return response;
+  }
+   
+};

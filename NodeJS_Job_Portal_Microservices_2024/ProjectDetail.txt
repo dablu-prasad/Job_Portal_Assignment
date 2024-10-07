@@ -1,0 +1,20 @@
+Technical Skill:-
+----------------------
+
+1) GraphQL [@apollo/server Model]
+2) radis    [set/get method for store specific data in memory as cache for some specific time] 
+3) Microservices
+4) RabbitMQ [message broker , message exchange, for Microservices communication] , graphql-request (request() for execute query)
+5) typescript
+6) JWT Token [For Authentcation]
+7) stream [for image upload on local Directory]
+8) git
+
+9) S3 Bucket
+
+
+
+Database
+-----------
+
+MongoDB

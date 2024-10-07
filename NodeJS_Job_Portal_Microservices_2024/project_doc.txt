@@ -1,0 +1,11 @@
+User Side
+--------
+
+Register
+Login (JWT Token)
+Forgot Password
+reset Password
+User List
+User List by Id
+delete List by Id 
+
