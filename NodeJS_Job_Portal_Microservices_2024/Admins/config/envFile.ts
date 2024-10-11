@@ -1,6 +1,7 @@
 export const envFile={
     MONGODB_URL:"mongodb+srv://dabluprasad201112:r7VC7xd7Yy7a5u7v@cluster0.pomt1b6.mongodb.net/JOB_PORTAL_ADMIN_DB?retryWrites=true&w=majority&appName=Cluster0",
     SECRET_KEY:"ADMIN_SECRET_KEY",
+    ADMIN_TOKEN_EXPIRE:"1h",
     PORT:4001,
     RADIS_EXPIRY_TIME:60, // in sec
     COMMON_PORT:"http://localhost:4000",

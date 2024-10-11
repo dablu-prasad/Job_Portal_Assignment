@@ -8,6 +8,7 @@ import Upload from 'graphql-upload'
 import multer from "multer"
 import { findUser } from '../services/userServices';
 import {JwtPayload} from 'jsonwebtoken'
+import { BaseContext } from '../dtos/createUser.dtos';
 
 
 declare module 'express' {
@@ -30,29 +31,26 @@ const getUser = async (token:any) => {
     return null;
   }
 };
-export const context = async ( {req,res}:ExpressContextFunctionArgument) => {
-  if (req.body.operationName === 'IntrospectionQuery') {
-    return {};
-  }
-  // allowing the 'CreateUser' and 'Login' queries to pass without giving the token
-  if (
-    req.body.operationName === 'CreateUser' ||
-    req.body.operationName === 'Login' ||
-    req.body.operationName === 'AdminFetchUserList'
-  ) {
-    return {};
-  }
-  // get the user token from the headers
-  const token = req.headers.authorization || '';
-  console.log("token==============>",token)
-  // try to retrieve a user with the token
-  const user = await getUser(token);
-  console.log("user==============>",user)
-  if (!user || !await findUser({email:(user as JwtPayload)?.email})) {
-    console.error('User is not Authenticated:');
-    throw new AuthenticationError('User is not authenticated');
-  }
-  return req.user=user;
+export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise<BaseContext> => {
+  let admin=null;
+ let msg=""
+ try{
+ const token = req.headers.authorization || '';
+ if(!token)
+ {
+   msg="Admin token required !!"
+   return {res,req,admin,msg}
+ }
+ admin = await jwt.verify(token, envFile.SECRET_KEY); 
+ if (!admin || !await findUser({email:(admin as JwtPayload)?.email})) {
+   msg="Invalid Token !!"
+   return {res,req,admin,msg}
+ }
+ return {req,res,admin,msg};
+} catch(error){
+ msg="Admin is not Authenticated !!"
+ return {res,req,admin,msg}
+}
 };
 
 export const uploadFile = async (file:any) => {

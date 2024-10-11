@@ -60,6 +60,7 @@ type Query {
     adminList(amount: Int): [AdminDetail]
     userList: [UserDetail]
     jobList:[CreateJobResDetail]
+    jobById(ID:ID!): CreateJobResDetail!
 }
 
 type Mutation {

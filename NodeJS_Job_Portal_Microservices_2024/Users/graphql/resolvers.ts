@@ -8,11 +8,13 @@ import { findUser, findUserByIdAndUpdate } from "../services/userServices";
 import { hashedPassword, matchPassword, sentQueueRabbitMQ, token } from "../utils/commonMethod";
 import { uploadFile } from "../middleware/authMiddleware";
 import {gql,request} from "graphql-request";
+import { ExpressContextFunctionArgument } from "@apollo/server/express4";
 export const resolvers = {
   Upload: GraphQLUpload,
   Query: {
-    async user(_: any, { ID }: { ID: string }, contextValue: any) {
+    async user(_: any, { ID }: { ID: string }, context: any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         const getUser = await client.get('userById');
         if (getUser) {
           return JSON.parse(getUser);
@@ -22,12 +24,12 @@ export const resolvers = {
           return userList
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     },
-    async getUser(_: any) {
+    async getUser(_: any,context:any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         let userList;
          userList = await client.get('userList');
         if(userList)
@@ -40,14 +42,14 @@ export const resolvers = {
         return userList
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     },
-    async jobList(_: any) {
+    async jobList(_: any,context:any) {
       //  return await consumeDataFromRabbitMQ("message_queue_user")
+      if (!context.admin) throw new Error(context.msg)
       const query = gql`
-        query UserJobList {
+        query {
           jobList{
             jobId
             jobTitle
@@ -60,8 +62,7 @@ export const resolvers = {
         const data = await request(envFile.ADMIN_API_URL, query);
         return data.jobList;
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     }
   },
@@ -118,6 +119,7 @@ export const resolvers = {
 
     async editUser(_: any, { ID, editUserInput }: { ID: string, editUserInput: EditUserInput },context:any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         if (!await findUser({_id:context.id}) || context.id!=ID) {
           throw new Error('User does not exist');
         }
@@ -125,8 +127,17 @@ export const resolvers = {
         editUserInput.image=imageUrl
        return await findUserByIdAndUpdate({_id:ID},{...editUserInput})
       } catch (error) {
-        throw new Error(`Error:${error}`);
+        throw new Error(`${error}`);
       }
     },
+
+    async applyOnJob(_:any,{ID}:{ID:string},context:any){
+try {
+  if (!context.admin) throw new Error(context.msg)
+
+} catch (error) {
+  throw new Error(`${error}`);
+}
+    }
   }
 }

@@ -54,5 +54,6 @@ type Mutation {
     login(email: String!, password: String!): User!
     deleteUser(ID: ID!): Boolean
     editUser(ID: ID!, editUserInput: EditUserInput): UserDetail!
+    applyOnJob(ID:ID!): JobDetail
 }
 `;

@@ -8,46 +8,35 @@ import Upload from 'graphql-upload'
 import multer from "multer"
 import { findadmin } from '../services/adminServices';
 import { JwtPayload } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { BaseContext } from '../dtos/createUser.dtos';
 
 declare module 'express' {
     export interface Request {
       user?: any; // Define the type for your 'user' property (change 'any' to a more specific type if possible)
     }
   }
-const getUser = async (token:any) => {
-  try {
-    let user=null
-    if (token) {
-        try {
-            user = jwt.verify(token, envFile.SECRET_KEY); // Replace 'your_secret_key' with your JWT secret
-          } catch (err) {
-            console.error('Invalid token',err);
-          }
-    }
-    return user;
-  } catch (error) {
-    return null;
-  }
-};
-export const context = async ( {req,res}:ExpressContextFunctionArgument) => {
-  if (req.body.operationName === 'IntrospectionQuery') {
-    return {};
-  }
-  if (
-    req.body.operationName === 'CreateUser' ||
-    req.body.operationName === 'Login'   ||
-    req.body.operationName === "UserJobList"
-  ) {
-    return {};
-  }
-  // get the user token from the headers
+
+export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise<BaseContext> => {
+   let admin=null;
+  let msg=""
+  try{
   const token = req.headers.authorization || '';
-  const admin = await getUser(token);
-  if (!admin || !await findadmin({email:(admin as JwtPayload)?.email})) {
-    console.error('Admin is not Authenticated:');
-    throw new AuthenticationError('User is not authenticated');
+  if(!token)
+  {
+    msg="Admin token required !!"
+    return {res,req,admin,msg}
   }
-  return req.admin=admin;
+  admin = await jwt.verify(token, envFile.SECRET_KEY); 
+  if (!admin || !await findadmin({email:(admin as JwtPayload)?.email})) {
+    msg="Invalid Token !!"
+    return {res,req,admin,msg}
+  }
+  return {req,res,admin,msg};
+} catch(error){
+  msg="Admin is not Authenticated !!"
+  return {res,req,admin,msg}
+}
 };
 
 export const uploadFile = async (file:any) => {

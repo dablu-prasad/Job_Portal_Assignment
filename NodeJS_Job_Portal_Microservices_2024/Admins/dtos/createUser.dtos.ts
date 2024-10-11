@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken"
+
 export interface createUserInterface{
     userName:string;
     email:string;
@@ -22,3 +24,10 @@ export interface CreateJob{
     jobDescription:String,
     adminId:String
 }
+
+export interface BaseContext {
+    req: Express.Request;
+    res: Express.Response;
+    admin: string | jwt.JwtPayload | null; // or any other type you expect for the user
+    msg:string
+  }

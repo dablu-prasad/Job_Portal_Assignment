@@ -16,7 +16,7 @@ export const matchPassword =async(password:string,comparePassword:string)=>bcryp
       userName:userName,
     },
     envFile.SECRET_KEY,
-    { expiresIn: '1h' }
+    { expiresIn: envFile.USER_TOKEN_EXPIRE }
   );
 // sent data in Queue in RabbitMQ
 export const sentQueueRabbitMQ=async(queueName:string,data:any) =>{

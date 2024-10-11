@@ -1,3 +1,4 @@
+import { AuthenticationError } from "apollo-server";
 import { envFile } from "../config/envFile";
 import { client } from "../config/radis_connection";
 import { CreateJob } from "../dtos/createUser.dtos";
@@ -9,8 +10,9 @@ import { request, gql } from 'graphql-request';
 
 export const resolvers = {
   Query: {
-    async admin(_: any, { ID }: { ID: string }) {
+    async admin(_: any, { ID }: { ID: string }, context: any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         const getAdmin = await client.get('adminById');
         if (getAdmin) {
           return JSON.parse(getAdmin);
@@ -20,12 +22,12 @@ export const resolvers = {
           return adminData
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     },
-    async adminList(_: any, { amount }: { amount: number }) {
+    async adminList(_: any, { amount }: { amount: number }, context: any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         let adminList;
         adminList = await client.get('adminList');
         if (adminList) {
@@ -36,12 +38,12 @@ export const resolvers = {
           return adminList
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     },
-    async jobList(_: any, { amount }: { amount: number }) {
+    async jobList(_: any, { amount }: { amount: number },context:any) {
       try {
+        if (!context.admin) throw new Error(context.msg)
         let jobList;
         jobList = await client.get('jobList');
         if (jobList) {
@@ -52,8 +54,7 @@ export const resolvers = {
           return jobList
         }
       } catch (error) {
-        console.error('Error fetching jobList:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
     },
     async userList(_: any) {
@@ -73,10 +74,16 @@ export const resolvers = {
         const data = await request(envFile.USER_API_URL, query);
         return data.getUser;
       } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+        throw new Error(`${error}`);
       }
-    }
+    },
+    async jobById(_: any, { ID }: { ID: string },context:any) {
+      try {
+
+      } catch (error) {
+        throw new Error(`${error}`);
+      }
+    },
   },
 
   Mutation: {
@@ -96,18 +103,22 @@ export const resolvers = {
           email: admin.email,
           token: token(admin._id, admin.email, admin.adminName),
         };
-      } catch (err) {
-        throw new Error(`Error:${err}`);
+      } catch (error) {
+        throw new Error(`${error}`);
       }
     },
 
     async createJob(_: any, { createJobInput }: { createJobInput: CreateJob }, context: any) {
-
-      if (await findJob({ jobId: createJobInput.jobId })) {
-        throw new Error("Job Id is already Exist")
+      try {
+        if (!context.admin) throw new Error(context.msg)
+        if (await findJob({ jobId: createJobInput.jobId })) {
+          throw new Error("Job Id is already Exist")
+        }
+        createJobInput.adminId = context.user.id
+        return await createJob(createJobInput)
+      } catch (error) {
+        throw new Error(`${error}`);
       }
-      createJobInput.adminId = context.id
-      return await createJob(createJobInput)
     }
   }
 }
