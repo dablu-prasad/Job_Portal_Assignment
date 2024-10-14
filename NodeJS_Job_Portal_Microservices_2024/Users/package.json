@@ -21,6 +21,7 @@
     "@types/graphql-upload": "^16.0.7",
     "amqplib": "^0.10.4",
     "apollo-server": "^3.13.0",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "express": "^4.21.0",

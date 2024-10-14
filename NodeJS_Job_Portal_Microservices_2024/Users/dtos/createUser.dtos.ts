@@ -36,6 +36,6 @@ export interface UserInput {
   export interface BaseContext {
     req: Express.Request;
     res: Express.Response;
-    admin: string | jwt.JwtPayload | null; // or any other type you expect for the user
+    user: string | jwt.JwtPayload | null; // or any other type you expect for the user
     msg:string
   }

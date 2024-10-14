@@ -4,9 +4,11 @@ import { client } from "../config/radis_connection";
 import { CreateJob } from "../dtos/createUser.dtos";
 import adminModel from "../models/adminModel";
 import jobModel from "../models/jobModel";
-import { createJob, findadmin, findJob } from "../services/adminServices";
+import { commonCodeuserList, createJob, findadmin, findJob } from "../services/adminServices";
 import { matchPassword, token } from "../utils/commonMethod";
 import { request, gql } from 'graphql-request';
+import { USER_LIST_QUERY } from "../utils/commonQuery";
+import axios from "axios"
 
 export const resolvers = {
   Query: {
@@ -41,38 +43,38 @@ export const resolvers = {
         throw new Error(`${error}`);
       }
     },
-    async jobList(_: any, { amount }: { amount: number },context:any) {
-      try {
+    async jobList(_: any, { amount}: { amount: number },context:any) {
+      try{
         if (!context.admin) throw new Error(context.msg)
-        let jobList;
-        jobList = await client.get('jobList');
-        if (jobList) {
-          return JSON.parse(jobList);
-        } else {
-          jobList = await jobModel.find().sort({ createdAt: -1 }).limit(amount)
-          await client.set('jobList', JSON.stringify(jobList), { 'EX': envFile.RADIS_EXPIRY_TIME });
-          return jobList
-        }
+         return await commonCodeuserList(amount)
       } catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async userList(_: any) {
+    async userJobList(_: any, { amount=100,value }: { amount: number,value:string }) {
+      try{
+        if(value!=envFile.USER_EXCHANGE_CODE) throw new Error("User don't have Authority")
+        return await commonCodeuserList(amount)
+      } catch (error) {
+        throw new Error(`${error}`);
+      }
+    },
+    async userList(_: any,{},context:any) {
       //  return await consumeDataFromRabbitMQ("message_queue_user")
-      const query = gql`
-        query AdminFetchUserList {
-          getUser{
-            _id
-            userName
-            email
-            mobile
-            description
-          }
-        }
-      `;
       try {
-        const data = await request(envFile.USER_API_URL, query);
-        return data.getUser;
+        if (!context.admin) throw new Error(context.msg)
+        const data = await axios({
+          url: envFile.USER_API_URL,
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            query: USER_LIST_QUERY,
+            variables: { userData: envFile.ADMIN_EXCHANGE_CODE }
+          }
+        })
+        return data.data.data.adminUserList;
       } catch (error) {
         throw new Error(`${error}`);
       }

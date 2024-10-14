@@ -59,7 +59,8 @@ type Query {
     admin(ID: ID!): AdminDetail!
     adminList(amount: Int): [AdminDetail]
     userList: [UserDetail]
-    jobList:[CreateJobResDetail]
+    jobList(amount:Int):[CreateJobResDetail]
+    userJobList(amount:Int,value:String):[CreateJobResDetail]
     jobById(ID:ID!): CreateJobResDetail!
 }
 

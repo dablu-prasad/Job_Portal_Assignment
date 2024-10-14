@@ -45,7 +45,8 @@ jobExperience:String
 
 type Query {
     user(ID: ID!): UserDetail!
-    getUser: [UserDetail]
+    getUser(amount:Int): [UserDetail]
+    adminUserList(value:String): [UserDetail]
     jobList:[JobDetail]
 }
 

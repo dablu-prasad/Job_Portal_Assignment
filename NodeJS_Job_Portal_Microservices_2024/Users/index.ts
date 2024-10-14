@@ -9,18 +9,18 @@ import { connectDB } from './config/mongodbConnect';
 import { client } from './config/radis_connection'
 import {context, upload} from './middleware/authMiddleware';
 import path from "path"
-import { envFile } from './config/envFile';
-import morgan from "morgan" 
 const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
-const { graphqlUploadExpress } = require('graphql-upload');
-
+import { envFile } from './config/envFile';
+import morgan from "morgan"
 interface MyContext {
   token?: string; 
 }
+
 declare global {
   namespace Express {
     interface Request {
       file?: Multer.File;   // Single file
+      user?:any;
       // files?: Multer.File[]; // Multiple files
     }
   }
@@ -31,32 +31,47 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
-  // Using graphql-upload without CSRF prevention is very insecure.
-  csrfPrevention: false,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   // includeStacktraceInErrorResponses: false, //to exclude stackTrace parameter from error messages
   // introspection: true,
+
 });
+// Set up the image upload route
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  res.json({ filePath: req.file.path });
+});
+
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const corsOptions = {
-  origin: '*', // Specify your frontend URL here
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
-};
-// Middleware for handling file uploads
-app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 const ApolloServerConnection = async () => {
   await server.start();
-  app.use(express.json()); 
   app.use(
     '/graphql',
-    cors(corsOptions),
+    cors({
+      origin: '*',
+    credentials: true,
+    // all headers that client are allowed to use
+    allowedHeaders: [
+      'Accept',
+      'Authorization',
+      'Content-Type',
+      'X-Requested-With',
+      'apollo-require-preflight',
+      'multipart/form-data',
+      'text/plain'
+    ],
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
+    }),
+    express.json(),
     expressMiddleware(server, {
       context: context
     }),
   );
+
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: envFile.PORT }, resolve)
   );

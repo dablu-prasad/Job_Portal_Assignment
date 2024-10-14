@@ -16,40 +16,26 @@ declare module 'express' {
       user?: any; // Define the type for your 'user' property (change 'any' to a more specific type if possible)
     }
   }
-const getUser = async (token:any) => {
-  try {
-    let user=null
-    if (token) {
-        try {
-            user = jwt.verify(token, envFile.SECRET_KEY); // Replace 'your_secret_key' with your JWT secret
-          } catch (err) {
-            console.error('Invalid token',err);
-          }
-    }
-    return user;
-  } catch (error) {
-    return null;
-  }
-};
+
 export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise<BaseContext> => {
-  let admin=null;
+  let user=null;
  let msg=""
  try{
  const token = req.headers.authorization || '';
  if(!token)
  {
-   msg="Admin token required !!"
-   return {res,req,admin,msg}
+   msg="User token required !!"
+   return {res,req,user,msg}
  }
- admin = await jwt.verify(token, envFile.SECRET_KEY); 
- if (!admin || !await findUser({email:(admin as JwtPayload)?.email})) {
+ user = await jwt.verify(token, envFile.SECRET_KEY); 
+ if (!user || !await findUser({email:(user as JwtPayload)?.email})) {
    msg="Invalid Token !!"
-   return {res,req,admin,msg}
+   return {res,req,user,msg}
  }
- return {req,res,admin,msg};
+ return {req,res,user,msg};
 } catch(error){
- msg="Admin is not Authenticated !!"
- return {res,req,admin,msg}
+ msg="User is not Authenticated !!"
+ return {res,req,user,msg}
 }
 };
 
