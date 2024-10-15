@@ -4,11 +4,11 @@ import { client } from "../config/radis_connection";
 import { EditUserInput, UserInput } from "../dtos/createUser.dtos";
 // import { uploadFile } from "../middleware/authMiddleware";
 import userModel from "../models/userModel";
-import { commonUserList, findUser, findUserByIdAndUpdate } from "../services/userServices";
+import { commonUserList, findUser, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
 import { hashedPassword, matchPassword, sentQueueRabbitMQ, token } from "../utils/commonMethod";
 import { uploadFile } from "../middleware/authMiddleware";
 import axios from "axios";
-import { JOB_LIST_QUERY } from "../utils/commonQuery";
+import { JOB_BY_ID_QUERY, JOB_LIST_QUERY } from "../utils/commonQuery";
 export const resolvers = {
   Upload: GraphQLUpload,
   Query: {
@@ -120,7 +120,7 @@ export const resolvers = {
     async editUser(_: any, { ID, editUserInput }: { ID: string, editUserInput: EditUserInput }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-        if (!await findUser({ _id: context.id }) || context.id != ID) {
+        if (!await findUser({ _id: context.user.id }) || context.user.id.toString() != ID.toString()) {
           throw new Error('User does not exist');
         }
         const imageUrl = await uploadFile(editUserInput.image.file)
@@ -134,7 +134,22 @@ export const resolvers = {
     async applyOnJob(_: any, { ID }: { ID: string }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-
+          const data = await axios({
+            url: envFile.ADMIN_API_URL,
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: {
+              query: JOB_BY_ID_QUERY,
+              variables: { inputJobById:{ID:ID,value: envFile.USER_EXCHANGE_CODE} }
+            }
+          })
+          if(!data.data.data.jobDetailById)
+          {
+            throw new Error("Job Detail not available")
+          }
+          return await userApplyForJob({userId:context.user.id,jobId:ID})
       } catch (error) {
         throw new Error(`${error}`);
       }

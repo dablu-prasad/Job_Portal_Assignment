@@ -31,3 +31,5 @@ export interface BaseContext {
     admin: string | jwt.JwtPayload | null; // or any other type you expect for the user
     msg:string
   }
+
+  export interface InputJobById { ID: string,value:string }

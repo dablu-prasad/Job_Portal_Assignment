@@ -1,7 +1,7 @@
 import { AuthenticationError } from "apollo-server";
 import { envFile } from "../config/envFile";
 import { client } from "../config/radis_connection";
-import { CreateJob } from "../dtos/createUser.dtos";
+import { CreateJob, InputJobById } from "../dtos/createUser.dtos";
 import adminModel from "../models/adminModel";
 import jobModel from "../models/jobModel";
 import { commonCodeuserList, createJob, findadmin, findJob } from "../services/adminServices";
@@ -79,13 +79,14 @@ export const resolvers = {
         throw new Error(`${error}`);
       }
     },
-    async jobById(_: any, { ID }: { ID: string },context:any) {
+    async jobDetailById(_: any, { inputJobById }:{inputJobById:InputJobById}) {
       try {
-
+        if(inputJobById.value!=envFile.USER_EXCHANGE_CODE) throw new Error("User don't have Authority")
+          return await findJob({_id:inputJobById.ID})
       } catch (error) {
         throw new Error(`${error}`);
       }
-    },
+    },  
   },
 
   Mutation: {
@@ -121,6 +122,7 @@ export const resolvers = {
       } catch (error) {
         throw new Error(`${error}`);
       }
-    }
+    },
+  
   }
 }

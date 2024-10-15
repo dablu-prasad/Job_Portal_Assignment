@@ -41,6 +41,7 @@ input EditAdminInput {
 }
 
 type CreateJobResDetail{
+_id:ID!
 jobId:String!
 jobTitle:String!
 jobExperience:String!
@@ -55,13 +56,18 @@ jobExperience:String!
 jobDescription:String!
 }
 
+input InputJobById{
+ID:String!
+value:String!
+}
+
 type Query {
     admin(ID: ID!): AdminDetail!
     adminList(amount: Int): [AdminDetail]
     userList: [UserDetail]
     jobList(amount:Int):[CreateJobResDetail]
     userJobList(amount:Int,value:String):[CreateJobResDetail]
-    jobById(ID:ID!): CreateJobResDetail!
+    jobDetailById(inputJobById:InputJobById): CreateJobResDetail!
 }
 
 type Mutation {

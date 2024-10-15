@@ -36,10 +36,16 @@ input EditUserInput {
 }
 
 type JobDetail{
+_id:String
 jobId:String
 jobTitle:String
 jobDescription:String
 jobExperience:String
+}
+
+type applyJob{
+userId:String,
+jobId:String
 }
 
 
@@ -55,6 +61,6 @@ type Mutation {
     login(email: String!, password: String!): User!
     deleteUser(ID: ID!): Boolean
     editUser(ID: ID!, editUserInput: EditUserInput): UserDetail!
-    applyOnJob(ID:ID!): JobDetail
+    applyOnJob(ID:ID!): applyJob
 }
 `;

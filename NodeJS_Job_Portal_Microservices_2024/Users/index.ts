@@ -12,6 +12,7 @@ import path from "path"
 const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
 import { envFile } from './config/envFile';
 import morgan from "morgan"
+const {graphqlUploadExpress} = require('graphql-upload');
 interface MyContext {
   token?: string; 
 }
@@ -28,14 +29,9 @@ declare global {
 const app = express();
 app.use(morgan('dev'));
 const httpServer = http.createServer(app);
-const server = new ApolloServer<MyContext>({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  // includeStacktraceInErrorResponses: false, //to exclude stackTrace parameter from error messages
-  // introspection: true,
+// Use the graphqlUploadExpress middleware before Apollo Server middleware
+app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 
-});
 // Set up the image upload route
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
@@ -46,6 +42,16 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const server = new ApolloServer<MyContext>({
+  typeDefs,
+  resolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  csrfPrevention: false,
+  // includeStacktraceInErrorResponses: false, //to exclude stackTrace parameter from error messages
+  // introspection: true,
+
+});
 
 const ApolloServerConnection = async () => {
   await server.start();

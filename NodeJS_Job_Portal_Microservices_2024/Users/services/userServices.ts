@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { client } from "../config/radis_connection";
 import userModel from "../models/userModel";
 import { envFile } from "../config/envFile";
+import applyJobModel from "../models/applyJobModel";
 
 export const findUser =async(data:any)=>{ 
     return await userModel.findOne(data);
@@ -26,4 +27,8 @@ export const commonUserList =async()=>{
       } catch (error) {
         throw new Error(`${error}`);
       }
+}
+
+export const userApplyForJob=async(data:any)=>{
+    return new applyJobModel(data).save()
 }

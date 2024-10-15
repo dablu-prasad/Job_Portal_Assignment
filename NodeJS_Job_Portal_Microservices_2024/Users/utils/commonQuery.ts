@@ -11,3 +11,16 @@ query UserJobList($jobList:String){
   }
 }
 `;
+
+export const JOB_BY_ID_QUERY=gql`
+query JobDetailById($inputJobById:InputJobById){
+  jobDetailById (inputJobById:$inputJobById) {
+    _id
+    jobId
+    jobTitle
+    jobExperience
+    jobDescription
+    # adminId (uncomment if needed in your schema)
+  }
+}
+`
