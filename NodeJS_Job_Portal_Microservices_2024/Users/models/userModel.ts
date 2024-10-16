@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     image:{
-        type:String
+        type:String,
+        default:null
     }
 })
 

@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_USER } from '../Graphql/mutations';
+import { setUserToken } from '../Authenticates/isAuthenticated';
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,6 @@ const navigate=useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("FormData",formData)
      const response= await registerUser({
         variables: {
           userName: formData.userName,
@@ -40,20 +40,20 @@ const navigate=useNavigate()
         },
       });
       const token = response.data.createUser.token;
-      localStorage.setItem('token', token); // Store token in localStorage
+      setUserToken(token) // Store token in localStorage
       navigate('/dashboard');
       alert('User registered successfully');
     } catch (err) {
       console.error('Error registering user', err);
     }
   };
-console.log("Register Dat====>",data)
   return (
     <div>
       <h2>Register User</h2>
-      <form onSubmit={handleSubmit}>
+      <div>
+      <form onSubmit={handleSubmit} >
         <div>
-          <label htmlFor="userName">User Name</label>
+          <label htmlFor="userName">User Name:       </label>
           <input
             type="text"
             id="userName"
@@ -65,7 +65,7 @@ console.log("Register Dat====>",data)
         </div>
 
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email:        </label>
           <input
             type="email"
             id="email"
@@ -77,7 +77,7 @@ console.log("Register Dat====>",data)
         </div>
 
         <div>
-          <label htmlFor="email">Password</label>
+          <label htmlFor="email">Password:    </label>
           <input
             type="password"
             id="password"
@@ -89,7 +89,7 @@ console.log("Register Dat====>",data)
         </div>
 
         <div>
-          <label htmlFor="mobile">Mobile</label>
+          <label htmlFor="mobile">Mobile: </label>
           <input
             type="tel"
             id="mobile"
@@ -101,7 +101,7 @@ console.log("Register Dat====>",data)
         </div>
 
         <div>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">Description: </label>
           <textarea
             id="description"
             name="description"
@@ -110,10 +110,9 @@ console.log("Register Dat====>",data)
             placeholder="Enter a description about yourself"
           />
         </div>
-
         <button type="submit">Register</button>
       </form>
-
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
       {data && <p>Registration successful for user {data.createUser.userName} </p>}

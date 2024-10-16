@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_MUTATION } from '../Graphql/mutations';
-
+import { setUserToken } from '../Authenticates/isAuthenticated';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,9 +14,8 @@ const Login = () => {
     try {
       const response = await login({ variables: { email, password } });
       const token = response.data.login.token;
-      localStorage.setItem('token', token); // Store token in localStorage
-      navigate('/dashboard');
-      // Redirect or do something after successful login
+      setUserToken(token) // Store token in localStorage
+      navigate('/dashboard'); // Redirect or do something after successful login
     } catch (err) {
       console.error('Login failed:', err);
     }
@@ -50,6 +49,8 @@ const Login = () => {
       </form>
       {error && <p style={{ color: 'red' }}>Login failed: {error.message}</p>}
       {data && <p>Login successful!</p>}
+      <br/>
+      <button onClick={()=>navigate('/register')}>Register</button>
     </div>
   );
 };

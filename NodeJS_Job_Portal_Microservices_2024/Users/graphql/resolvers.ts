@@ -120,10 +120,11 @@ export const resolvers = {
     async editUser(_: any, { ID, editUserInput }: { ID: string, editUserInput: EditUserInput }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-        if (!await findUser({ _id: context.user.id }) || context.user.id.toString() != ID.toString()) {
+          const userData=await findUser({ _id: context.user.id })
+        if (!userData || context.user.id.toString() != ID.toString()) {
           throw new Error('User does not exist');
         }
-        const imageUrl = await uploadFile(editUserInput.image.file)
+        let imageUrl = userData.image!=null ?userData.image:await uploadFile(editUserInput.image.file)
         editUserInput.image = imageUrl
         return await findUserByIdAndUpdate({ _id: ID }, { ...editUserInput })
       } catch (error) {

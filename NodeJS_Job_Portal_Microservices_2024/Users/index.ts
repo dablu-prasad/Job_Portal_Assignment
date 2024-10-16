@@ -53,30 +53,23 @@ const server = new ApolloServer<MyContext>({
 
 });
 
-const ApolloServerConnection = async () => {
-  await server.start();
-  app.use(
-    '/graphql',
-    cors({
-      origin: '*',
-    credentials: true,
-    // all headers that client are allowed to use
-    allowedHeaders: [
-      'Accept',
-      'Authorization',
-      'Content-Type',
-      'X-Requested-With',
-      'apollo-require-preflight',
-      'multipart/form-data',
-      'text/plain'
-    ],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
-    }),
-    express.json(),
-    expressMiddleware(server, {
-      context: context
-    }),
-  );
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
+  const ApolloServerConnection = async () => {
+    await server.start();    
+    app.use(
+      '/graphql',
+      cors(),
+      express.json(),
+      expressMiddleware(server, {
+        context: context, // Your context configuration for Apollo Server
+      }),
+    );
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: envFile.PORT }, resolve)
