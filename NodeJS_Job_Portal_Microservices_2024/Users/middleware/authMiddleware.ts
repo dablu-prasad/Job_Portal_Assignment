@@ -1,14 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { envFile } from '../config/envFile';
 import { ExpressContextFunctionArgument } from '@apollo/server/express4'; 
-import { AuthenticationError } from 'apollo-server';
 import path from "path"
 import fs from "fs"
-import Upload from 'graphql-upload'
 import multer from "multer"
-import { findUser } from '../services/userServices';
+import { findDetails } from '../services/userServices';
 import {JwtPayload} from 'jsonwebtoken'
 import { BaseContext } from '../dtos/createUser.dtos';
+import { commonMessage } from '../utils/commonMessage';
 
 
 declare module 'express' {
@@ -28,7 +27,7 @@ export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise
    return {res,req,user,msg}
  }
  user = await jwt.verify(token, envFile.SECRET_KEY); 
- if (!user || !await findUser({email:(user as JwtPayload)?.email})) {
+ if (!user || !await findDetails(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,commonMessage.commonModelCacheKey.USER_MODEL,{email:(user as JwtPayload)?.email})) {
    msg="Invalid Token !!"
    return {res,req,user,msg}
  }

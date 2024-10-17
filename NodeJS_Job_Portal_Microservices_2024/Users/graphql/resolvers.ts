@@ -4,41 +4,42 @@ import { client } from "../config/radis_connection";
 import { EditUserInput, InputAdminJobList, InputJobList, UserInput } from "../dtos/createUser.dtos";
 // import { uploadFile } from "../middleware/authMiddleware";
 import userModel from "../models/userModel";
-import { commonUserList, createUser, findUser, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
+import { commonUserList, createUser, findDetails, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
 import { hashedPassword, matchPassword, sentQueueRabbitMQ, token } from "../utils/commonMethod";
 import { uploadFile } from "../middleware/authMiddleware";
 import axios from "axios";
 import { JOB_BY_ID_QUERY, JOB_LIST_QUERY } from "../utils/commonQuery";
+import { commonMessage } from "../utils/commonMessage";
 export const resolvers = {
   Upload: GraphQLUpload,
   Query: {
     async user(_: any, { ID }: { ID: string }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-        return await findUser({_id:ID})
+        return await findDetails(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { _id: ID })
       } catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async getUser(_: any, {currentPage,itemPerPage }:{currentPage:number,itemPerPage:number}, context: any) {
+    async getUser(_: any, { currentPage, itemPerPage }: { currentPage: number, itemPerPage: number }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-         return await  commonUserList(currentPage,itemPerPage)
-        }
-       catch (error) {
+        return await commonUserList(currentPage, itemPerPage)
+      }
+      catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async adminUserList(_: any, {inputAdminUserList}:{inputAdminUserList:InputAdminJobList}, context: any) {
+    async adminUserList(_: any, { inputAdminUserList }: { inputAdminUserList: InputAdminJobList }, context: any) {
       try {
-        if(inputAdminUserList.value!=envFile.ADMIN_EXCHANGE_CODE) throw new Error("Admin don't have Authority")
-         return await  commonUserList(inputAdminUserList.currentPage,inputAdminUserList.itemPerPage)
-        }
-       catch (error) {
+        if (inputAdminUserList.value != envFile.ADMIN_EXCHANGE_CODE) throw new Error("Admin don't have Authority")
+        return await commonUserList(inputAdminUserList.currentPage, inputAdminUserList.itemPerPage)
+      }
+      catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async jobList(_: any, {inputJobList }:{inputJobList:InputJobList}, context: any) {
+    async jobList(_: any, { inputJobList }: { inputJobList: InputJobList }, context: any) {
       //  return await consumeDataFromRabbitMQ("message_queue_user")
       if (!context.user) throw new Error(context.msg)
       try {
@@ -50,12 +51,20 @@ export const resolvers = {
           },
           data: {
             query: JOB_LIST_QUERY,
-            variables: { inputUserJobList:{ currentPage:inputJobList.currentPage,itemPerPage:inputJobList.itemPerPage,value:envFile.USER_EXCHANGE_CODE} }
+            variables: { inputUserJobList: { currentPage: inputJobList.currentPage, itemPerPage: inputJobList.itemPerPage, value: envFile.USER_EXCHANGE_CODE } }
           }
         })
         return data.data.data.userJobList;
       } catch (error) {
         throw new Error(`${error}`);
+      }
+    },
+    async userAplliedJobList(_: any, { userId }: { userId: String }, context: any) {
+      try {
+        if (!context.user) throw new Error(context.msg)
+        return await findDetails(commonMessage.commonRadisCacheKey.JOB_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.JOB_MODEL, { userId: userId })
+      } catch (error) {
+        throw new Error(`${error}`)
       }
     }
   },
@@ -65,7 +74,7 @@ export const resolvers = {
     async createUser(_: any, { userInput }: { userInput: UserInput }) {
       try {
         const { userName, email, password, mobile, description } = userInput;
-        if (await findUser({ email: email })) {
+        if (await findDetails(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { email: email })) {
           throw new Error('User already exists');
         }
         const newUser = await createUser({
@@ -88,7 +97,7 @@ export const resolvers = {
 
     async login(_: any, { email, password }: { email: string, password: string }) {
       try {
-        let user = await findUser({ email: email })
+        let user = await findDetails(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { email: email })
         if (!user) {
           throw new Error('User does not exist');
         }
@@ -110,11 +119,11 @@ export const resolvers = {
     async editUser(_: any, { ID, editUserInput }: { ID: string, editUserInput: EditUserInput }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-          const userData=await findUser({ _id: context.user.id })
+        const userData = await findDetails(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { _id: context.user.id })
         if (!userData || context.user.id.toString() != ID.toString()) {
           throw new Error('User does not exist');
         }
-        let imageUrl = userData.image!=null ?userData.image:await uploadFile(editUserInput.image.file)
+        let imageUrl = userData.image != null ? userData.image : await uploadFile(editUserInput.image.file)
         editUserInput.image = imageUrl
         return await findUserByIdAndUpdate({ _id: ID }, { ...editUserInput })
       } catch (error) {
@@ -125,22 +134,21 @@ export const resolvers = {
     async applyOnJob(_: any, { ID }: { ID: string }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-          const data = await axios({
-            url: envFile.ADMIN_API_URL,
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              query: JOB_BY_ID_QUERY,
-              variables: { inputJobById:{ID:ID,value: envFile.USER_EXCHANGE_CODE} }
-            }
-          })
-          if(!data.data.data.jobDetailById)
-          {
-            throw new Error("Job Detail not available")
+        const data = await axios({
+          url: envFile.ADMIN_API_URL,
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            query: JOB_BY_ID_QUERY,
+            variables: { inputJobById: { ID: ID, value: envFile.USER_EXCHANGE_CODE } }
           }
-          return await userApplyForJob({userId:context.user.id,jobId:ID})
+        })
+        if (!data.data.data.jobDetailById) {
+          throw new Error("Job Detail not available")
+        }
+        return await userApplyForJob({ userId: context.user.id, jobId: ID })
       } catch (error) {
         throw new Error(`${error}`);
       }

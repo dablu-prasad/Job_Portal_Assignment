@@ -58,12 +58,17 @@ currentPage:Int!,
 itemPerPage:Int!,
 value:String!
 }
+type appliedJob{
+userId:String,
+jobId:String
+}
 
 type Query {
     user(ID: ID!): UserDetail!
     getUser(currentPage:Int,itemPerPage:Int): [UserDetail]
     adminUserList(inputAdminUserList:InputAdminUserList): [UserDetail]
     jobList(inputJobList:InputJobList):[JobDetail]
+    userAplliedJobList(userId:String):[appliedJob]
 }
 
 type Mutation {
