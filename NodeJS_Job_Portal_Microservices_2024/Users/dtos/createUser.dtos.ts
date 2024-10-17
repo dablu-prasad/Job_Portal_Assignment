@@ -38,6 +38,12 @@ export interface UserInput {
     itemPerPage:number
   }
 
+  export interface InputAdminJobList{
+    currentPage:number,
+    itemPerPage:number,
+    value:string
+  }
+
   export interface BaseContext {
     req: Express.Request;
     res: Express.Response;

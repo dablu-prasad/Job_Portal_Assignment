@@ -70,7 +70,7 @@ value:String!
 type Query {
     admin(ID: ID!): AdminDetail!
     adminList(currentPage: Int,itemPerPage:Int): [AdminDetail]
-    userList: [UserDetail]
+    userList(currentPage: Int,itemPerPage:Int): [UserDetail]
     jobList(currentPage:Int,itemPerPage:Int):[CreateJobResDetail]
     userJobList(inputUserJobList:InputUserJobList):[CreateJobResDetail]
     jobDetailById(inputJobById:InputJobById): CreateJobResDetail!

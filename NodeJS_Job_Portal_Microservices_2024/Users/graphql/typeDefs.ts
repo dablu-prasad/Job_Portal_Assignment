@@ -53,10 +53,16 @@ currentPage:Int,
 itemPerPage:Int
 }
 
+input InputAdminUserList{
+currentPage:Int!,
+itemPerPage:Int!,
+value:String!
+}
+
 type Query {
     user(ID: ID!): UserDetail!
-    getUser(amount:Int): [UserDetail]
-    adminUserList(value:String): [UserDetail]
+    getUser(currentPage:Int,itemPerPage:Int): [UserDetail]
+    adminUserList(inputAdminUserList:InputAdminUserList): [UserDetail]
     jobList(inputJobList:InputJobList):[JobDetail]
 }
 

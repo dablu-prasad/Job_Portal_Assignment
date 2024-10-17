@@ -1,10 +1,10 @@
 import GraphQLUpload from "graphql-upload";
 import { envFile } from "../config/envFile";
 import { client } from "../config/radis_connection";
-import { EditUserInput, InputJobList, UserInput } from "../dtos/createUser.dtos";
+import { EditUserInput, InputAdminJobList, InputJobList, UserInput } from "../dtos/createUser.dtos";
 // import { uploadFile } from "../middleware/authMiddleware";
 import userModel from "../models/userModel";
-import { commonUserList, findUser, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
+import { commonUserList, createUser, findUser, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
 import { hashedPassword, matchPassword, sentQueueRabbitMQ, token } from "../utils/commonMethod";
 import { uploadFile } from "../middleware/authMiddleware";
 import axios from "axios";
@@ -15,31 +15,24 @@ export const resolvers = {
     async user(_: any, { ID }: { ID: string }, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-        const getUser = await client.get('userById');
-        if (getUser) {
-          return JSON.parse(getUser);
-        } else {
-          const userList = await userModel.findById(ID)
-          await client.set('userById', JSON.stringify(userList), { 'EX': envFile.RADIS_EXPIRY_TIME });
-          return userList
-        }
+        return await findUser({_id:ID})
       } catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async getUser(_: any, { }, context: any) {
+    async getUser(_: any, {currentPage,itemPerPage }:{currentPage:number,itemPerPage:number}, context: any) {
       try {
         if (!context.user) throw new Error(context.msg)
-         return await  commonUserList()
+         return await  commonUserList(currentPage,itemPerPage)
         }
        catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async adminUserList(_: any, {value}:{value:string}, context: any) {
+    async adminUserList(_: any, {inputAdminUserList}:{inputAdminUserList:InputAdminJobList}, context: any) {
       try {
-        if(value!=envFile.ADMIN_EXCHANGE_CODE) throw new Error("Admin don't have Authority")
-         return await  commonUserList()
+        if(inputAdminUserList.value!=envFile.ADMIN_EXCHANGE_CODE) throw new Error("Admin don't have Authority")
+         return await  commonUserList(inputAdminUserList.currentPage,inputAdminUserList.itemPerPage)
         }
        catch (error) {
         throw new Error(`${error}`);
@@ -72,18 +65,16 @@ export const resolvers = {
     async createUser(_: any, { userInput }: { userInput: UserInput }) {
       try {
         const { userName, email, password, mobile, description } = userInput;
-        // Check if user already exists
         if (await findUser({ email: email })) {
           throw new Error('User already exists');
         }
-        // Create new user
-        const newUser = await new userModel({
+        const newUser = await createUser({
           userName,
           email,
           password: await hashedPassword(password), // Hash Password
           mobile,
           description
-        }).save();
+        })
         return {
           id: newUser._id,
           userName: newUser.userName,
@@ -105,7 +96,6 @@ export const resolvers = {
         if (!match) {
           throw new Error('Invalid credentials');
         }
-        // Return the user data without using _doc
         return {
           id: user._id,
           userName: user.userName,
