@@ -2,8 +2,8 @@ import { gql } from "graphql-request";
 import { envFile } from "../config/envFile";
 
 export const JOB_LIST_QUERY = gql`
-query UserJobList($jobList:String){
-  userJobList(value:$jobList){
+query UserJobList($inputUserJobList:InputUserJobList){
+  userJobList(inputUserJobList:$inputUserJobList){
     jobId
     jobTitle
     jobDescription

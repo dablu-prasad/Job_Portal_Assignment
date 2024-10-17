@@ -1,7 +1,7 @@
 import GraphQLUpload from "graphql-upload";
 import { envFile } from "../config/envFile";
 import { client } from "../config/radis_connection";
-import { EditUserInput, UserInput } from "../dtos/createUser.dtos";
+import { EditUserInput, InputJobList, UserInput } from "../dtos/createUser.dtos";
 // import { uploadFile } from "../middleware/authMiddleware";
 import userModel from "../models/userModel";
 import { commonUserList, findUser, findUserByIdAndUpdate, userApplyForJob } from "../services/userServices";
@@ -45,7 +45,7 @@ export const resolvers = {
         throw new Error(`${error}`);
       }
     },
-    async jobList(_: any, { }, context: any) {
+    async jobList(_: any, {inputJobList }:{inputJobList:InputJobList}, context: any) {
       //  return await consumeDataFromRabbitMQ("message_queue_user")
       if (!context.user) throw new Error(context.msg)
       try {
@@ -57,7 +57,7 @@ export const resolvers = {
           },
           data: {
             query: JOB_LIST_QUERY,
-            variables: { jobList: envFile.USER_EXCHANGE_CODE }
+            variables: { inputUserJobList:{ currentPage:inputJobList.currentPage,itemPerPage:inputJobList.itemPerPage,value:envFile.USER_EXCHANGE_CODE} }
           }
         })
         return data.data.data.userJobList;

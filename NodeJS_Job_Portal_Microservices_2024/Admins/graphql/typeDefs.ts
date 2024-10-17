@@ -61,12 +61,18 @@ ID:String!
 value:String!
 }
 
+input InputUserJobList{
+currentPage:Int!
+itemPerPage:Int!
+value:String!
+}
+
 type Query {
     admin(ID: ID!): AdminDetail!
-    adminList(amount: Int): [AdminDetail]
+    adminList(currentPage: Int,itemPerPage:Int): [AdminDetail]
     userList: [UserDetail]
-    jobList(amount:Int):[CreateJobResDetail]
-    userJobList(amount:Int,value:String):[CreateJobResDetail]
+    jobList(currentPage:Int,itemPerPage:Int):[CreateJobResDetail]
+    userJobList(inputUserJobList:InputUserJobList):[CreateJobResDetail]
     jobDetailById(inputJobById:InputJobById): CreateJobResDetail!
 }
 

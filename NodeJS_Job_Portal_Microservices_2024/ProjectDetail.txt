@@ -11,6 +11,11 @@ Technical Skill:-
 8) git
 
 9) S3 Bucket
+10) API optimize and fast User 
+       1) Pagination
+       2) async
+       3) radis
+
 
 
 

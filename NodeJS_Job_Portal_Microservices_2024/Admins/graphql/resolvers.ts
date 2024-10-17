@@ -1,10 +1,10 @@
 import { AuthenticationError } from "apollo-server";
 import { envFile } from "../config/envFile";
 import { client } from "../config/radis_connection";
-import { CreateJob, InputJobById } from "../dtos/createUser.dtos";
+import { CreateJob, InputJobById, InputUserJobList } from "../dtos/createUser.dtos";
 import adminModel from "../models/adminModel";
 import jobModel from "../models/jobModel";
-import { commonCodeuserList, createJob, findadmin, findJob } from "../services/adminServices";
+import { commonCodeuserList, createJob, findadmin, findAllAdminList, findJob } from "../services/adminServices";
 import { matchPassword, token } from "../utils/commonMethod";
 import { request, gql } from 'graphql-request';
 import { USER_LIST_QUERY } from "../utils/commonQuery";
@@ -27,34 +27,36 @@ export const resolvers = {
         throw new Error(`${error}`);
       }
     },
-    async adminList(_: any, { amount }: { amount: number }, context: any) {
+    async adminList(_: any, { currentPage,itemPerPage }: { currentPage: number,itemPerPage:number }, context: any) {
       try {
         if (!context.admin) throw new Error(context.msg)
-        let adminList;
-        adminList = await client.get('adminList');
-        if (adminList) {
-          return JSON.parse(adminList);
-        } else {
-          adminList = await adminModel.find().sort({ createdAt: -1 }).limit(amount)
-          await client.set('adminList', JSON.stringify(adminList), { 'EX': envFile.RADIS_EXPIRY_TIME });
-          return adminList
-        }
+          return await findAllAdminList(currentPage,itemPerPage)
+          // ===========With Radis Method========
+        // let adminList;
+        // adminList = await client.get('adminList');
+        // if (adminList) {
+        //   return JSON.parse(adminList);
+        // } else {
+        //   adminList = await adminModel.find().sort({ createdAt: -1 }).limit(amount)
+        //   await client.set('adminList', JSON.stringify(adminList), { 'EX': envFile.RADIS_EXPIRY_TIME });
+        //   return adminList
+        // }
       } catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async jobList(_: any, { amount}: { amount: number },context:any) {
+    async jobList(_: any, { currentPage,itemPerPage}: { currentPage: number,itemPerPage:number },context:any) {
       try{
         if (!context.admin) throw new Error(context.msg)
-         return await commonCodeuserList(amount)
+         return await commonCodeuserList(currentPage,itemPerPage)
       } catch (error) {
         throw new Error(`${error}`);
       }
     },
-    async userJobList(_: any, { amount=100,value }: { amount: number,value:string }) {
+    async userJobList(_: any, { inputUserJobList }: { inputUserJobList:InputUserJobList }) {
       try{
-        if(value!=envFile.USER_EXCHANGE_CODE) throw new Error("User don't have Authority")
-        return await commonCodeuserList(amount)
+        if(inputUserJobList.value!=envFile.USER_EXCHANGE_CODE) throw new Error("User don't have Authority")
+        return await commonCodeuserList(inputUserJobList.currentPage,inputUserJobList.itemPerPage)
       } catch (error) {
         throw new Error(`${error}`);
       }

@@ -32,4 +32,10 @@ export interface BaseContext {
     msg:string
   }
 
+  export interface InputUserJobList{
+    currentPage: number,
+    itemPerPage:number,
+    value:string
+  }
+
   export interface InputJobById { ID: string,value:string }

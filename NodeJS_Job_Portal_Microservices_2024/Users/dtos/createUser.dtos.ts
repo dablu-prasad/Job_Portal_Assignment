@@ -33,6 +33,11 @@ export interface UserInput {
     image?:any
   }
 
+  export interface InputJobList{
+    currentPage:number,
+    itemPerPage:number
+  }
+
   export interface BaseContext {
     req: Express.Request;
     res: Express.Response;
