@@ -170,15 +170,7 @@ color:darkgray;
         font-weight: bold;
         font-size: 15px;
     }
-    .webdevelop-paragraph{
 
-    }
-    .outline-skill-paragraph{
-
-    }
-    .freecodecamp-span{
-
-    }
     .free-code{
         color: darkgray;
     }
@@ -288,9 +280,6 @@ border-color: red;
         border-radius: 32px;
         font-weight: bold;
     }
-    .text-box-input-div{
-        
-    }
     .text-box-input-name, .text-box-input-email{
         display: block;
         margin: 8px 10px 6px 10p;
@@ -308,15 +297,7 @@ border-color: red;
     display: inline-block;
     vertical-align: middle;
   }
-  .customer-support-yes-button{
 
-  }
-  .customer-support-no-button{
-
-  }
-  .google-logo-div{
-
-  }
   .google-logo-img{
     display: block;
     margin-left: auto;
@@ -558,16 +539,4 @@ padding: 14px 12px 19px 15px;
     border-radius: 3px;
     border-style: solid;
     border-color: lightgrey;
-}
-.duplicate-design-fews-img{
-
-}
-.duplicate-oliver-paragraph{
-
-}
-.duplicate-mutual-paragraph{
-
-}
-.duplicate-friends-btn{
-
 }

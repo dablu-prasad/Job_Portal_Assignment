@@ -1,0 +1,70 @@
+.headers-flex-div,
+.headers-flex-left-div,
+.headers-flex-center-div,
+.headers-flex-right-div
+{
+display: flex;
+flex-direction: row;
+justify-content:space-between;
+text-align: center;
+width: 100%; 
+height: 30px;
+margin: 0px 0px 20px 0px;
+}
+
+.headers-flex-left-div{
+justify-content: space-evenly;
+}
+.hamb-berger-image{
+
+}
+.youtube-logo{
+
+}
+.headers-flex-center-div{
+    justify-content: space-evenly;
+}
+.search-bar {
+    width: 100%;
+}
+.search-btn,
+.voice-btn{
+    border: 1px;
+    border-radius: 10px;
+    border-color: lightslategray;
+    object-fit: fill;
+    width: 20px;
+}
+
+.search-btn-main,
+.voice-btn-main{
+    border: 1px;
+    border-radius: 35px;
+    border-style: solid;
+    border-color: lightslategray;
+    object-fit: fill;
+    width: 44px;
+}
+.search-btn-main{
+    border-radius: 3px;
+    margin-right: 10px;
+}
+.voice-btn{
+    
+}
+.headers-flex-right-div{
+    justify-content: space-evenly;
+}
+.video-icon{
+
+}
+.grid-icon{
+
+}
+.notification-icon{
+
+}
+.profile-image-icon{
+
+}
+
