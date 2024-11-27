@@ -1,0 +1,14 @@
+{
+  "name": "acceldream_erp_backend_nodejs",
+  "version": "1.0.0",
+  "description": "acceldream_erp for ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "test": "acceldream_erp test"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Dablu Prasad",
+  "license": "ISC"
+}
