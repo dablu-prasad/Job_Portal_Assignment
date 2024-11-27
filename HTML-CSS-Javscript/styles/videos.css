@@ -4,16 +4,24 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 10px;
     row-gap: 10px;
+    height:60px;
+    /* position: relative; */
 }
+
+
+
 
 .video-preview {
     /* display: inline-block; */
     line-height: 1;
+    position: static;
     /* vertical-align: top; */
     /* width: min-content; */
     /* height: 100%; */
 }
-
+.thumbnail-raw{
+    position: relative;
+}
 .thumbnail {
     width: 100%; 
     height: 100%; 
@@ -22,7 +30,16 @@
     border: 2px;
     border-radius: 8px;
 }
-
+.video-timestamps{
+    background-color: black;
+    color: white;
+    position: absolute;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
 .video-title {
     font-weight: bold;
     /* height: 100%; */

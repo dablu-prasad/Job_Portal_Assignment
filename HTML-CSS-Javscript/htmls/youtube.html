@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../styles/videos.css" />
     <link rel="stylesheet" href="../styles/headers.css" />
     <link rel="stylesheet" href="../styles/generals.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
 </head>
 
 <body>
@@ -17,23 +18,60 @@
         </div>
         <div class="headers-flex-center-div">
             <input class="search-bar" type="text" placeholder="Search" />
-            <button class="search-btn-main" >  <img class="search-btn" src="../images/search-icon.png" /> </button>
-           <button class="voice-btn-main"> <img class="voice-btn" src="../images/voice-icon-logo.png" /> </button>
+            <button class="search-btn-main">
+                 <img class="search-btn" src="../images/search-icon.png" />
+                <p class="headers-flex-center-search-tooltip">Search</p>
+                </button>
+            <button class="voice-btn-main">
+                 <img class="voice-btn" src="../images/voice-icon-logo.png" />
+                 <p>Speak</p>
+             </button>
         </div>
 
         <div class="headers-flex-right-div">
             <img class="video-icon" src="../images/video-recordering-logo.png" />
             <img class="grid-icon" src="../images/grid-logo.png" />
-            <img class="notification-icon" src="../images/notification-icon.png" />
+            <div class="notification-count">
+                <img class="notification-icon" src="../images/notification-icon.png" />
+                <span class="notifiction-number-icon">3</span>
+            </div>
+
             <img class="profile-image-icon" src="../images/dablu_prasad_pic.jpg" />
         </div>
     </div>
-
+    <!-- sidebar flexs-->
+    <div class="sidebar-flex-div">
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-home.png" />
+            <p class="sidebar-icon-name">Home</p>
+        </div>
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-exploer1.png" />
+            <p class="sidebar-icon-name">Explore</p>
+        </div>
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-subscription.png" />
+            <p class="sidebar-icon-name">Subscriptions</p>
+        </div>
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-playicon.png" />
+            <p class="sidebar-icon-name">Origional</p>
+        </div>
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-youtubeicon.png" />
+            <p class="sidebar-icon-name">YouTube Music</p>
+        </div>
+        <div class="sidebar-icon-div">
+            <img class="sidebar-image" src="../images/sidebar-youTubeLibaray.png" />
+            <p class="sidebar-icon-name">Library</p>
+        </div>
+    </div>
     <!-- videos grids -->
     <div class="video-grid">
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talk.png" />
+                <div class="video-timestamps"> 10:40</div>
             </div>
             <div class="user-image-title-div">
                 <div class="user-image-div">
@@ -66,8 +104,9 @@
         </div>
 
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talk2.png" />
+                <div class="video-timestamps"> 12:40</div>
             </div>
             <div class="user-image-title-div">
                 <div class="user-image-div">
@@ -92,8 +131,9 @@
         </div>
 
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talk3.png" />
+                <div class="video-timestamps"> 12:40</div>
             </div>
             <div class="user-image-title-div">
                 <div class="user-image-div">
@@ -118,9 +158,11 @@
         </div>
 
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talk6.png" />
+                <div class="video-timestamps"> 12:40</div>
             </div>
+
             <div class="user-image-title-div">
                 <div class="user-image-div">
                     <img class="user-image" src="../images/dablu_prasad_pic.jpg" />
@@ -144,8 +186,9 @@
         </div>
 
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talks5.png" />
+                <div class="video-timestamps"> 12:40</div>
             </div>
             <div class="user-image-title-div">
                 <div class="user-image-div">
@@ -172,8 +215,9 @@
         </div>
 
         <div class="video-preview">
-            <div>
+            <div class="thumbnail-raw">
                 <img class="thumbnail" src="../images/profestional-talk.png" />
+                <div class="video-timestamps"> 12:40</div>
             </div>
             <div class="user-image-title-div">
                 <div class="user-image-div">
