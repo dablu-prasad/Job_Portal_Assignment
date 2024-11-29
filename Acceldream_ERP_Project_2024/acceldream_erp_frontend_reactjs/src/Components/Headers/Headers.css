@@ -2,13 +2,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: rgb(3, 73, 75);
     align-items: center;
-    padding: 10px ,20px;
-    background-color: #333;
+    background-color: #333; /* Removed duplicate background-color */
     color: #fff;
-    position: relative;
+    /* padding: 10px 20px; Fixed padding syntax (comma replaced with space) */
+    position: fixed;
     width: 100%;
+    margin-top: 0;
+    z-index: 1;
 }
 
 .header-container img {
@@ -45,7 +46,7 @@
     cursor: pointer;
 }
 
-@media (max-width:650px){
+ @media (max-width:650px){
     .header-container{
         display: flex;
         flex-direction:row;
@@ -83,4 +84,4 @@
     .header-menu-options a:last-child{
         border-bottom: none;
     }
-}
+} 
