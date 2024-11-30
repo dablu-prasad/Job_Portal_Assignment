@@ -10,6 +10,7 @@
     width: 100%;
     margin-top: 0;
     z-index: 1;
+    height: 60px;
 }
 
 .header-container img {
@@ -21,6 +22,50 @@
 .header-menu-options {
     display: flex;
     justify-content: space-around;
+}
+
+.login-register-btn {
+    background-color: darkcyan;
+    margin: 0;
+    border: 3px solid rgb(169, 174, 169);
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.register-btn,.login-btn {
+    background-color: #8c8b94;
+    width: 50%;
+    height: 50%;
+    margin: 3px;
+    padding: 10px;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    border: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    border: none;
+}
+
+.header-register-btn{
+    display: flex;
+    margin-right: 62px;
+    width: 30%;
+}
+
+
+.header-register-btn button:hover {
+    opacity: 0.6;
+}
+
+.header-register-btn button:active {
+    width: 50%;
+    height: 50%;
+    transform: translate(-1%, -1%);
+    background-color: rgb(173, 113, 123);
 }
 
 .header-menu-options a {
@@ -44,6 +89,13 @@
     background-color: none;
     border: none;
     cursor: pointer;
+}
+
+.register-modal{
+
+}
+.login-modal{
+    
 }
 
  @media (max-width:650px){
