@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import "./LoginPage.css";
 import Modal from "react-modal"
@@ -8,7 +7,7 @@ function LoginPage({openRegistorForm,setOpenRegistorForm}:{openRegistorForm:bool
 
   }
   const handleSubmit=()=>{
-    
+
   }
   return (
       <Modal
