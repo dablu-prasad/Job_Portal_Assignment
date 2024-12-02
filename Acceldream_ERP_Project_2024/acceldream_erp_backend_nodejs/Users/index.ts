@@ -50,7 +50,6 @@ const server = new ApolloServer<MyContext>({
   csrfPrevention: false,
   // includeStacktraceInErrorResponses: false, //to exclude stackTrace parameter from error messages
   // introspection: true,
-
 });
 
 app.use(function(req, res, next) {

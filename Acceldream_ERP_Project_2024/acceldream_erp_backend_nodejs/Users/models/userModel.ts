@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema({
     mobile: {
         type: Number,
         required:true,
-        unique:true
     },
     description: {
         type: String
@@ -39,5 +38,5 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const userModel = mongoose.model('user', userSchema)
+const userModel = mongoose.model('User', userSchema)
 export default userModel;

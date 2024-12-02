@@ -1,4 +1,3 @@
-
 import userModel from "../models/userModel";
 
 export const commonMessage={

@@ -4,13 +4,13 @@ import jwt from 'jsonwebtoken';
 import mongoose, { ObjectId } from 'mongoose';
 import amqp from 'amqplib';
 import randomstring from 'randomstring';
-import nodeMailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 // Hash Password
 export const hashedPassword =async (password:string)=>bcrypt.hash(password, 10);
 //Compare Password
 export const matchPassword =async(password:string,comparePassword:string)=>bcrypt.compare(password, comparePassword)
- // Generate JWT token
+// Generate JWT token
 export const token =async(_id:mongoose.Types.ObjectId,email:string,userName:string)=>jwt.sign(
     {
       id: _id,
@@ -20,36 +20,36 @@ export const token =async(_id:mongoose.Types.ObjectId,email:string,userName:stri
     envFile.SECRET_KEY,
     { expiresIn: envFile.USER_TOKEN_EXPIRE }
   );
-  //generate OTP
-  export function generateOTP() {
+//generate OTP
+export function generateOTP() {
     return randomstring.generate({
         length: 6,
         charset: 'numeric'
     });
 }
-
-
 export const sendEmail = async (options:any) => {
-    const transporter = nodeMailer.createTransport({
-      service:"gmail",
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: true, // Use SSL
-        auth: {
-            user: "shopping.cart.ind.lgo@gmail.com",
-            pass: "kasmvuqnqvsbugfn",
-        },
-        authMethod: 'LOGIN', // Specify the authentication method
-    });
-    const mailOptions = {
-        from: "shopping.cart.ind.lgo@gmail.com",
-        to: options.to,
-        subject: options.subject,
-        html: options.message,
-    };
-    await transporter.sendMail(mailOptions);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'shopping.cart.ind.lgo@gmail.com',
+    pass: 'kasmvuqnqvsbugfn', // Use the app password here
+  },
+});
+
+const mailOptions = {
+  from: 'shopping.cart.ind.lgo@gmail.com',
+  to: 'dabluprasad563@gmail.com',
+  subject: 'Test Email',
+  text: `${options.otp}This is a test email sent using Node.js.`,
 };
 
+transporter.sendMail(mailOptions, (error:any, info:any) => {
+  if (error) {
+    return console.log(error);
+  }
+  console.log('Email sent: ' + info.response);
+});
+};
 // sent data in Queue in RabbitMQ
 export const sentQueueRabbitMQ=async(queueName:string,data:any) =>{
   // Create a connection to the RabbitMQ server
@@ -83,6 +83,5 @@ channel.consume(queue, (msg: any) => {
   return data;     
 })
 }
-
 
   

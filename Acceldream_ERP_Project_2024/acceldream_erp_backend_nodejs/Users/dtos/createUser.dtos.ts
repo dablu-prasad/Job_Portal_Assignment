@@ -58,3 +58,8 @@ export interface UserInput {
     user: string | jwt.JwtPayload | null; // or any other type you expect for the user
     msg:string
   }
+
+  export interface LoginInput{
+     email: string;
+      password: string;
+    }

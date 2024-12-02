@@ -1,4 +1,3 @@
-
 import { client } from "../config/radis_connection";
 import { envFile } from "../config/envFile";
 
@@ -8,6 +7,7 @@ export const createModel=async(modelName:any,data:any)=>{
 }
 
 export const find=async(key:string,modelName:any,data:any)=>{ 
+  console.log("Find",key,modelName,data)
     let getUser;  
     let cacheKey=`${key}_${data._id||data.email||data.userId}`
     getUser = await client.get(cacheKey);
@@ -19,7 +19,9 @@ export const find=async(key:string,modelName:any,data:any)=>{
           return getUser
         }
 }
+
 export const findByIdAndUpdate =async(modelName:any,id:any,updateData:any)=>{ 
+  console.log("findByIdAndUpdate",modelName,id,updateData)
     return await modelName.findByIdAndUpdate(id, updateData, {new: true});
 }
 
