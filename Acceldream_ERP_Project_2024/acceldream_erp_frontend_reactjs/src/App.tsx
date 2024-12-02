@@ -4,6 +4,7 @@ import PublicRoute from './Routes/PublicRoutes';
 import HomePage from './Components/HomePage/HomePage';
 import PrivateRoute from './Routes/PrivateRoutes';
 import DashboardPage from './Components/DashboardPage/DashboardPage';
+import OTPVerificationPage from './Components/OTPVerificationPage/OTPVerificationPage';
 
 export const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ export const App: React.FC = () => {
       <Routes>
         {/* Public Navigation */}
         <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
+        <Route path="/otp-verify" element={<PublicRoute><OTPVerificationPage /></PublicRoute>}/>
 
         {/* Add Private Navigation here as needed */}
         <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />

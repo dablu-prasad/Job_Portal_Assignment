@@ -137,3 +137,25 @@
         border-bottom: none;
     }
 } 
+
+.logout-btn{
+    width: 100px;
+    height: 40px;
+    background-color: lightseagreen;
+    color: white;
+    font-size: medium;
+    font-family: AUTO;
+    border-radius: 10px;
+    margin-right: 50px;
+    border: 4px;
+    border-color: white;
+    cursor: pointer;
+}
+.login-btn:hover{
+    opacity: 0.8;
+}
+
+.login-btn:active{
+    transform: translate(-1%,-1%);
+    background-color: bisque;
+}

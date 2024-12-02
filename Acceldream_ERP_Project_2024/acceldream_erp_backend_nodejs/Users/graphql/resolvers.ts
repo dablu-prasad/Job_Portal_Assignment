@@ -23,7 +23,6 @@ export const resolvers = {
           { email }
         );
         if (existingUser) throw new Error("User already exists");
-
         // Generate OTP and create a new user
         const otp = generateOTP();
         const newUser = await createModel(commonMessage.commonModelCacheKey.USER_MODEL, {
@@ -48,6 +47,7 @@ export const resolvers = {
           id: newUser._id,
           userName: newUser.userName,
           email: newUser.email,
+          success:true
         };
       } catch (error: any) {
         throw new Error(`Error: ${error.message}`);
@@ -81,6 +81,7 @@ export const resolvers = {
           id: user._id,
           userName: user.userName,
           email: user.email,
+          success:true
         };
       } catch (error: any) {
         throw new Error(`Error: ${error.message}`);
@@ -94,11 +95,13 @@ export const resolvers = {
           throw new Error("Input is missing");
         } 
         let { email, mobile, otp } = otpVerifyInput;
+        console.log("email--->",otpVerifyInput)
         const existingUser = await find(
           commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
           { email }
         );
+        console.log("vvv",existingUser)
         if(existingUser && (existingUser.otp==Number(otp) || Number(otp)==123456))
         {
         await findByIdAndUpdate(
@@ -107,6 +110,7 @@ export const resolvers = {
           {otp:0}
         )
         return {
+          success:true,
           id: existingUser._id,
           userName: existingUser.userName,
           email: existingUser.email,

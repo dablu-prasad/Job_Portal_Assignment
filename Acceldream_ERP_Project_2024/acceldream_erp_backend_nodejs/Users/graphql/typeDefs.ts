@@ -10,7 +10,7 @@ type User {
     email: String!
     mobile: String!
     token: String
-    success: String
+    success: Boolean
     message: String
 }
 
