@@ -1,11 +1,11 @@
-import React from 'react'
-
-const querys = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+import { gql } from '@apollo/client';
+export const USER_QUERY=gql`
+query{
+ userDetails{
+    _id,
+    userName,
+    email,
+    mobile
+ } 
 }
-
-export default querys
+`

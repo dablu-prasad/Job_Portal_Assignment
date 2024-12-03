@@ -13,7 +13,7 @@ export const matchPassword =async(password:string,comparePassword:string)=>bcryp
 // Generate JWT token
 export const token =async(_id:mongoose.Types.ObjectId,email:string,userName:string)=>jwt.sign(
     {
-      id: _id,
+      _id: _id,
       email: email,
       userName:userName,
     },

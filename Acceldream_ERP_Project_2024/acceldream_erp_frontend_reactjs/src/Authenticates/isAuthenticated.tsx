@@ -14,3 +14,14 @@ export const getUserRole = () => {
 export const removeToken = async () => {
     return await localStorage.removeItem('token')
 }
+
+export const getAuthHeaders = () => {
+    const token = localStorage.getItem('token'); // Retrieve the token
+    return {
+        context:{
+      headers: {
+        authorization: token ? `${token}` : '',
+      },
+    }
+}
+  };

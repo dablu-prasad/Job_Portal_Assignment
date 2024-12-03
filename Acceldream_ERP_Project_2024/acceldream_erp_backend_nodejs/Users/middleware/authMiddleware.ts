@@ -9,16 +9,15 @@ import {JwtPayload} from 'jsonwebtoken'
 import { BaseContext } from '../dtos/createUser.dtos';
 import { commonMessage } from '../utils/commonMessage';
 
-
 declare module 'express' {
-    export interface Request {
+export interface Request {
       user?: any; // Define the type for your 'user' property (change 'any' to a more specific type if possible)
     }
   }
 
 export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise<BaseContext> => {
-  let user=null;
- let msg=""
+let user=null;
+let msg=""
  try{
  const token = req.headers.authorization || '';
  if(!token)
@@ -26,8 +25,8 @@ export const context = async ( {req,res}:ExpressContextFunctionArgument):Promise
    msg="User token required !!"
    return {res,req,user,msg}
  }
- user = await jwt.verify(token, envFile.SECRET_KEY); 
- if (!user || !await find(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,commonMessage.commonModelCacheKey.USER_MODEL,{email:(user as JwtPayload)?.email})) {
+ user = await jwt.verify(token, envFile.SECRET_KEY);
+ if (!user || !await find(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,commonMessage.commonModelCacheKey.USER_MODEL,{_id:(user as JwtPayload)?._id})) {
    msg="Invalid Token !!"
    return {res,req,user,msg}
  }
@@ -58,7 +57,6 @@ export const uploadFile = async (file:any) => {
   }
   return imageUrl; // Return the image URL
 };
-
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

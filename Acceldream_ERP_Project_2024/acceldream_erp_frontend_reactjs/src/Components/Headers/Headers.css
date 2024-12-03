@@ -3,7 +3,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: #333; /* Removed duplicate background-color */
+    background-color: #333;
+    /* Removed duplicate background-color */
     color: #fff;
     /* padding: 10px 20px; Fixed padding syntax (comma replaced with space) */
     position: fixed;
@@ -15,6 +16,7 @@
 
 .header-container img {
     height: 40px;
+    margin-top: 10px;
 }
 
 .header-logo {}
@@ -34,7 +36,8 @@
     align-items: center;
 }
 
-.register-btn,.login-btn {
+.register-btn,
+.login-btn {
     background-color: #8c8b94;
     width: 50%;
     height: 50%;
@@ -50,7 +53,7 @@
     border: none;
 }
 
-.header-register-btn{
+.header-register-btn {
     display: flex;
     margin-right: 62px;
     width: 30%;
@@ -76,13 +79,13 @@
     text-decoration: none;
 }
 
-.header-menu-options a:hover{
+.header-menu-options a:hover {
     opacity: 0.8;
     background-color: burlywood;
     top: 10px;
 }
 
-.hamburger-menu{
+.hamburger-menu {
     display: none;
     font-size: 24px;
     color: #fff;
@@ -91,71 +94,138 @@
     cursor: pointer;
 }
 
-.register-modal{
+.header-humberger-btn {}
 
-}
-.login-modal{
-    
-}
 
- @media (max-width:650px){
-    .header-container{
-        display: flex;
-        flex-direction:row;
-        justify-content:space-around;
-    }
-    .hamburger-menu{
-        display: block;
-    }
-    .header-menu-options{
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top:46px;
-        right: 12px;
-        background-color: #333;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .header-menu-options a:hover{
-        opacity: 0.6;
-        background-color: brown;
-    }
-
-    .header-menu-options.show{
-        display: flex;
-    }
-    .header-menu-options a{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 15px;
-        font-weight: 100;
-        padding: 10px;
-        border-bottom: 1px solid #555;
-    }
-    .header-menu-options a:last-child{
-        border-bottom: none;
-    }
-} 
-
-.logout-btn{
+.logout-btn {
     width: 100px;
     height: 40px;
     background-color: lightseagreen;
     color: white;
     font-size: medium;
-    font-family: AUTO;
     border-radius: 10px;
     margin-right: 50px;
     border: 4px;
     border-color: white;
     cursor: pointer;
 }
-.login-btn:hover{
+
+.logout-btn:hover {
+    opacity: 0.6;
+}
+
+.logout-btn:active {
+    transform: translate(-1%, -1%);
     opacity: 0.8;
 }
 
-.login-btn:active{
-    transform: translate(-1%,-1%);
-    background-color: bisque;
+.logout-div {
+    margin-top: 10px;
+}
+
+.header-left {
+    display: flex;
+    justify-content: left;
+    text-align: center;
+    position: relative;
+    left: 20px;
+}
+
+.header-username {
+    color: rgb(169, 174, 169);
+    margin-right: 20px;
+    width: 70%;
+}
+
+.header-right {
+    display: flex;
+    justify-content: right;
+    width: 30%;
+}
+
+
+.header-name-image {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.header-profile-img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.header-left-humberger {
+    display: none;
+}
+
+@media (max-width:650px) {
+    .header-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .header-menu-options {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 46px;
+        right: 12px;
+        background-color: #333;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .header-menu-options a:hover {
+        opacity: 0.6;
+        background-color: brown;
+    }
+
+    .header-menu-options.show {
+        display: flex;
+    }
+
+    .header-menu-options a {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        font-weight: 100;
+        padding: 10px;
+        border-bottom: 1px solid #555;
+    }
+
+    .header-menu-options a:last-child {
+        border-bottom: none;
+    }
+
+    .header-left-humberger {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 10px;
+        border-radius: 10px
+    }
+
+    .header-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+.header-humberger-btn{
+    margin-left: 100px;
+        position: absolute;
+}
+
+.header-humberger-btn img{
+height: 30px;
+border:5px;
+border-radius: 10px;
+}
+
 }

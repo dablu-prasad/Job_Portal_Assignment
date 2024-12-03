@@ -9,6 +9,14 @@ export const resolvers = {
 
   Query: {
     // Add Queries as needed, currently commented out for future use.
+    async userDetails(_: any, {}, context: any) {
+      try {
+        if (!context.user) throw new Error(context.msg)
+        return await find(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { _id: context.user._id })
+      } catch (error) {
+        throw new Error(`${error}`);
+      }
+    },
   },
 
   Mutation: {
@@ -44,7 +52,7 @@ export const resolvers = {
         // });
 
         return {
-          id: newUser._id,
+          _id: newUser._id,
           userName: newUser.userName,
           email: newUser.email,
           success:true
@@ -58,7 +66,6 @@ export const resolvers = {
     async login(_: any, { loginInput }: {loginInput:LoginInput}) {
       try {
         const {email,password} =loginInput
-        console.log("email",email,password)
         const user = await find(
           commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
@@ -78,7 +85,7 @@ export const resolvers = {
         //   message: `<p>Your OTP is: <strong>${otp}</strong></p>`,
         // });
         return {
-          id: user._id,
+          _id: user._id,
           userName: user.userName,
           email: user.email,
           success:true
@@ -95,13 +102,11 @@ export const resolvers = {
           throw new Error("Input is missing");
         } 
         let { email, mobile, otp } = otpVerifyInput;
-        console.log("email--->",otpVerifyInput)
         const existingUser = await find(
           commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
           { email }
         );
-        console.log("vvv",existingUser)
         if(existingUser && (existingUser.otp==Number(otp) || Number(otp)==123456))
         {
         await findByIdAndUpdate(
@@ -109,9 +114,10 @@ export const resolvers = {
           existingUser._id,
           {otp:0}
         )
+        
         return {
           success:true,
-          id: existingUser._id,
+          _id: existingUser?._id,
           userName: existingUser.userName,
           email: existingUser.email,
           token: token(existingUser._id, existingUser.email, existingUser.userName),

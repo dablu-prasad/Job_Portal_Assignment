@@ -5,7 +5,7 @@ export const typeDefs = gql`
 scalar Upload
 
 type User {
-    id: ID!
+    _id:ID
     userName: String!
     email: String!
     mobile: String!
@@ -38,7 +38,7 @@ input LoginInput {
 
 type Query {
     # Example Query
-    getUser(id: ID!): User
+    userDetails: User
 }
 
 type Mutation {

@@ -46,7 +46,6 @@ function RegisrationPage({ openRegistorForm,setOpenRegistorForm }: { openRegisto
      } catch (err) {
        console.error('Error registering user', err);
      }
- 
   }
 
   return (
