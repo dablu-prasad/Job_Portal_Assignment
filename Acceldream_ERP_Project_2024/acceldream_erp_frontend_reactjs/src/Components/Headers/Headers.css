@@ -104,7 +104,7 @@
     color: white;
     font-size: medium;
     border-radius: 10px;
-    margin-right: 50px;
+    margin-right: 10px;
     border: 4px;
     border-color: white;
     cursor: pointer;
@@ -132,15 +132,13 @@
 }
 
 .header-username {
-    color: rgb(169, 174, 169);
-    margin-right: 20px;
-    width: 70%;
+    width: 150px;
+    color: brown;
 }
 
 .header-right {
     display: flex;
     justify-content: right;
-    width: 30%;
 }
 
 
@@ -159,13 +157,20 @@
     display: none;
 }
 
+.header-profile-option{
+    display: none;
+}
+
 @media (max-width:650px) {
     .header-container {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
-
+    .header-container img {
+        height: 30px;
+        margin-top: 10px;
+    }
     .hamburger-menu {
         display: block;
     }
@@ -173,12 +178,19 @@
     .header-menu-options {
         display: none;
         flex-direction: column;
+        background-color: #555;
         position: absolute;
         top: 46px;
         right: 12px;
+        left: 100px;
+        width: 80px;
         background-color: #333;
-        padding: 10px;
+        padding: 20px;
         border-radius: 5px;
+        border: 1px;
+        border-style: solid;
+        border-color: #fff;
+        margin-top: 2px;
     }
 
     .header-menu-options a:hover {
@@ -188,13 +200,15 @@
 
     .header-menu-options.show {
         display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .header-menu-options a {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 100;
-        padding: 10px;
+        padding: 15px;
         border-bottom: 1px solid #555;
     }
 
@@ -228,4 +242,58 @@ border:5px;
 border-radius: 10px;
 }
 
+.header-name-image{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 55px;
+    right: 12px;
+    background-color: #291818;
+    padding: 2px;
+    border-radius: 5px;
+    cursor: pointer;   
+    border: 1px;
+    border-color: white;
+    border-style: solid;
+}
+
+
+.header-name-image a:hover {
+    opacity: 0.6;
+    background-color: brown;
+}
+
+.header-name-image.show {
+    display: flex;
+}
+.header-profile-option{
+    display: inline;
+}
+.header-profile-option{
+    margin-right: 10px;
+}
+.header-profile-option-btn{
+cursor: pointer;
+border-radius: 50%;
+padding-bottom: 2px;
+}
+.header-profile-option-btn img{
+    cursor: pointer;
+    border-radius: 50% 
+}
+
+.header-name-image div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+    padding: 10px;
+    border-bottom: 1px solid #555;
+}
+
+.header-name-image a:last-child {
+    border-bottom: none;
+}
+.header-profile-img {
+    margin-right: 10px;
+}
 }

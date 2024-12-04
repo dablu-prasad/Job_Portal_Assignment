@@ -13,7 +13,7 @@ export const App: React.FC = () => {
         {/* Public Navigation */}
         <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
         <Route path="/otp-verify" element={<PublicRoute><OTPVerificationPage /></PublicRoute>}/>
-
+        
         {/* Add Private Navigation here as needed */}
         <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
       </Routes>

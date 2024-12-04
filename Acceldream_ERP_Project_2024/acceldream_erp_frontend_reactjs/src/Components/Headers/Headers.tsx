@@ -10,6 +10,7 @@ import { USER_QUERY } from '../../Graphql/querys';
 const Headers = () => {
     const { data, loading, error } = useQuery(USER_QUERY, getAuthHeaders());
     const [menuOpen, setMenuOpen] = useState(false);
+    const [profileMenu, setProfileMenu] = useState(false)
     const [openRegistorForm, setOpenRegistorForm] = useState(false);
     const [openRegModal, setRegOpenModal] = useState(false);
     const [openLogModal, setLogOpenModal] = useState(false);
@@ -30,6 +31,10 @@ const Headers = () => {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    const toggleProfileMenu = () => {
+        setProfileMenu(!profileMenu)
+    }
 
     const logOut = () => {
         removeToken();
@@ -58,7 +63,7 @@ const Headers = () => {
                 </div>
             </div>
             {!IsAuthenticated() ? (
-                <>
+             <>
                     <div className="header-register-btn">
                         <button className="register-btn" onClick={onRegisterButton}>
                             Register
@@ -67,34 +72,28 @@ const Headers = () => {
                             Login
                         </button>
                     </div>
-                </>
+                </> 
             ) : (
 
-                
-
-                <div className='header-right'>
-
-                    <div className='header-left-humberger' onClick={toggleMenu}>
-                        <button className='header-humberger-btn'><img src="/avatar.png" alt="" /></button>
+            <div className='header-right'>
+                <div className='header-profile-option' onClick={toggleProfileMenu}>
+                    <button className='header-profile-option-btn'><img src="/avatar.png" alt="" /></button>
+                </div>
+                <div className={`header-name-image ${profileMenu ? "show" : ""}`}>
+                    <div className='header-profile-img' onClick={toggleProfileMenu}>
+                        <img alt="" src="/avatar.png" style={{borderRadius:"50%"}}/>
                     </div>
-                    <div className={`header-name-image ${menuOpen ? "show" : ""}`}>
-                        <div className='header-profile-img'>
-                            <img alt="" src="/avatar.png" className='header-profile-img' />
-                        </div>
-                        <div className='header-username'>
-                            {/* <h3 >{data.userDetails?.userName}</h3> */}
-                            <h3>dablu-prasad</h3>
-                        </div>
+                    <div className='header-username'>
+                        <h3 >{data.userDetails?.userName}</h3>
+                        {/* <h3>dablu-prasad</h3> */}
                     </div>
                     <div className='logout-div'>
                         <button onClick={logOut} className="logout-btn">
                             Logout
                         </button>
                     </div>
-
-
                 </div>
-
+            </div>
             )}
             {/* Registration and Login Modals */}
             {openRegModal && (
