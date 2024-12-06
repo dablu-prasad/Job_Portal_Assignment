@@ -144,7 +144,7 @@
 
 .header-name-image {
     display: flex;
-    justify-content: space-around;
+    justify-content: right;
     text-align: center;
 }
 

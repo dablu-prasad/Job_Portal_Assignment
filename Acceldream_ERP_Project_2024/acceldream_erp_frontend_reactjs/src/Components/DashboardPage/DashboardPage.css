@@ -1,0 +1,24 @@
+.dashboard-container-main{
+    background-color:white;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    /* overflow: hidden; */
+}
+.dashboard-header{
+height: 10%;
+top: 0;
+left:0;
+}
+
+.dashboard-container{
+ height: 90%;
+ left: 0;
+ display: flex;
+ justify-content: left;
+ flex-direction:row;
+ text-align: center;
+ margin-top: 6px;
+ margin-left: 1px;
+}
