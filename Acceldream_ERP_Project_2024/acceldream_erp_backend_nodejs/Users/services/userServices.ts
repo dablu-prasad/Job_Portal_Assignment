@@ -21,7 +21,6 @@ export const find=async(key:string,modelName:any,data:any)=>{
 }
 
 export const findByIdAndUpdate =async(modelName:any,id:any,updateData:any)=>{ 
-  console.log("findByIdAndUpdate",modelName,id,updateData)
     return await modelName.findByIdAndUpdate(id, updateData, {new: true});
 }
 

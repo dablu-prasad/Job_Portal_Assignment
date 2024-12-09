@@ -6,9 +6,14 @@ scalar Upload
 
 type User {
     _id:ID
-    userName: String!
+    userName: String
+    firstName: String
+    lastName: String
     email: String!
+    password: String
     mobile: String!
+    description: String
+    image: String
     token: String
     success: Boolean
     message: String
@@ -22,8 +27,23 @@ input UserInput {
     password: String!
     mobile: String!
     description: String
-    image: String
+    image: Upload!
 }
+
+input EditUserInput {
+    userName: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    mobile: String!
+    description: String
+    image: Upload!
+}
+    input ResetPasswordInput{
+    currentPassword:String
+    newPassword:String
+    confirmNewPassword:String
+    }
 
 input VerifyOTPInput {
     email: String!
@@ -37,7 +57,6 @@ input LoginInput {
 }
 
 type Query {
-    # Example Query
     userDetails: User
 }
 
@@ -45,5 +64,7 @@ type Mutation {
     userRegister(userInput: UserInput): User!
     verifyOTP(otpVerifyInput: VerifyOTPInput): User!
     login(loginInput: LoginInput): User!
+    editUser(ID: ID!, editUserInput: EditUserInput): User!
+    resetPassword(ID:ID!,resetPasswordInput:ResetPasswordInput):User!
 }
 `;
