@@ -3,6 +3,8 @@ import { EditUserInput, InputAdminJobList, InputJobList, LoginInput, OtpVerifyIn
 import { generateOTP, hashedPassword, matchPassword, sendEmail, token } from "../utils/commonMethod";
 import { commonMessage } from "../utils/commonMessage";
 import { createModel, find, findByIdAndUpdate } from "../services/userServices";
+import { InputValidation } from "../middleware/inputValidation";
+import { loginInputSchema, userRegistrationInputSchema } from "../middleware/joiValidation";
 
 export const resolvers = {
   Upload: GraphQLUpload,
@@ -24,6 +26,7 @@ export const resolvers = {
     async userRegister(_: any, { userInput }: { userInput: UserInput }) {
       try {
         const { userName, firstName, lastName, email, password, mobile, description } = userInput;
+        InputValidation(userRegistrationInputSchema,userInput)
         // Check if user already exists
         const existingUser = await find(
           commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
@@ -66,6 +69,7 @@ export const resolvers = {
     async login(_: any, { loginInput }: {loginInput:LoginInput}) {
       try {
         const {email,password} =loginInput
+        InputValidation(loginInputSchema,loginInput)
         const user = await find(
           commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
