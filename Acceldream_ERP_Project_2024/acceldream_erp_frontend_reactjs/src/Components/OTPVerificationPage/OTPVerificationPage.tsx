@@ -4,9 +4,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { OTP_VERIFIY } from '../../Graphql/mutations';
 import { setUserToken } from '../../Authenticates/isAuthenticated';
+import ErrorPopupPage from '../ErrorPopupPage/ErrorPopupPage';
+import SuccessPopupPage from '../SuccessPopupPage/SuccessPopupPage';
 
 const OTPVerificationPage = () => {
-  const [verifyOTP, { data, loading, error }] = useMutation(OTP_VERIFIY)
+  const [verifyOTP, {loading}] = useMutation(OTP_VERIFIY)
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email')
@@ -19,7 +23,6 @@ const OTPVerificationPage = () => {
     const newOtp = [...otp];
     newOtp[index] = value.slice(-1); // Only keep the last digit
     setOtp(newOtp);
-
     // Move focus to the next input field if a value is entered
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
@@ -37,22 +40,32 @@ const OTPVerificationPage = () => {
     e.preventDefault();
     const otpValue = otp.join('');
     if (otpValue.length === 6) {
-      console.log('OTP Value:', otpValue);
-      const response = await verifyOTP({
+      verifyOTP({
         variables: {
           email: email,
           mobile: "0000000000",
           otp: otpValue
         },
-      });
-      console.log("verifyOTP", response.data.verifyOTP)
-      if (response.data.verifyOTP.success) {
-        setUserToken(response.data.verifyOTP.token)
-        navigate("/dashboard")
-      }
-    } else {
-      alert('Please enter a 6-digit OTP');
+      }).then((response)=>{
+        if (response.data.verifyOTP.success) {
+          setUserToken(response.data.verifyOTP.token)
+          navigate("/dashboard")
+        }
+       else {
+        setErrorMessage('Please enter a 6-digit OTP');
+      }  
+      }).catch((error)=>{
+        const message = error.response?.data?.message || error.message || "An unknown error occurred.";
+        setErrorMessage(message);
+      })
     }
+  };
+  const closeErrorPopup = () => {
+    setErrorMessage("");
+  };
+
+  const closeSuccessPopup = () => {
+    setSuccessMessage("");
   };
 
   return (
@@ -81,9 +94,11 @@ const OTPVerificationPage = () => {
               />
             ))}
           </div>
-          <button type="submit" className='otp-btn'>
-            Verify OTP
+          <button type="submit" className='otp-btn' disabled={loading}>
+          {loading ? <div className="loader"></div> : "Verify OTP"}         
           </button>
+          {errorMessage && <ErrorPopupPage message={errorMessage} onClose={closeErrorPopup} />}
+          {successMessage && <SuccessPopupPage message={successMessage} onClose={closeSuccessPopup} />}
         </form>
       </div>
     </div>

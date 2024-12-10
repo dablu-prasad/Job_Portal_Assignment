@@ -19,7 +19,6 @@
     margin-top: 10px;
 }
 
-.header-logo {}
 
 .header-menu-options {
     display: flex;
@@ -36,8 +35,8 @@
     align-items: center;
 }
 
-.register-btn,
-.login-btn {
+.register-btn1,
+.login-btn1 {
     background-color: #8c8b94;
     width: 50%;
     height: 50%;
@@ -94,8 +93,6 @@
     cursor: pointer;
 }
 
-.header-humberger-btn {}
-
 
 .logout-btn {
     width: 100px;
@@ -120,7 +117,7 @@
 }
 
 .logout-div {
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .header-left {
@@ -139,13 +136,49 @@
 .header-right {
     display: flex;
     justify-content: right;
+    align-items: center;
+    margin-right: 10px
 }
 
 
 .header-name-image {
-    display: flex;
-    justify-content: right;
-    text-align: center;
+    display: none;
+}
+
+.header-name-image.show{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin: 0px 0px 2px 0px;
+        position: absolute;
+        top: 55px;
+        right: 1px;
+}
+
+.header-name-image.show button{
+    width: 120px;
+    height: 40px;
+    background-color: #ddd;
+    cursor: pointer;
+    border-color: rgb(226, 231, 231);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: ui-sans-serif;
+    color: black;
+    font-style: normal;
+    padding: 5px;
+}
+
+.header-name-image.show button:hover{
+    opacity: 0.6;
+    background-color: #8c8b94;
+}
+.header-name-image.show button::after{
+    opacity: 0.8
+}
+.header-name-image.show:last-child{
+    border-bottom: #333;
 }
 
 .header-profile-img {
@@ -153,13 +186,25 @@
     margin-right: 10px;
 }
 
-.header-left-humberger {
+.header-left-hamburger {
     display: none;
 }
 
-.header-profile-option{
-    display: none;
+.header-profile-option {
+    display: flex;
+    flex-direction: column;
 }
+
+.header-profile-option-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.header-edit-profile {}
+
+.header-reset-password {}
 
 @media (max-width:650px) {
     .header-container {
@@ -167,10 +212,12 @@
         flex-direction: row;
         justify-content: space-between;
     }
+
     .header-container img {
         height: 30px;
         margin-top: 10px;
     }
+
     .hamburger-menu {
         display: block;
     }
@@ -216,7 +263,7 @@
         border-bottom: none;
     }
 
-    .header-left-humberger {
+    .header-left-hamburger {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -231,69 +278,21 @@
         align-items: center;
         position: relative;
     }
-.header-humberger-btn{
-    margin-left: 100px;
+
+    .header-hamburger-btn {
+        margin-left: 100px;
         position: absolute;
-}
+    }
 
-.header-humberger-btn img{
-height: 30px;
-border:5px;
-border-radius: 10px;
-}
+    .header-hamburger-btn img {
+        height: 30px;
+        border: 5px;
+        border-radius: 10px;
+    }
 
-.header-name-image{
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 55px;
-    right: 12px;
-    background-color: #291818;
-    padding: 2px;
-    border-radius: 5px;
-    cursor: pointer;   
-    border: 1px;
-    border-color: white;
-    border-style: solid;
-}
-
-
-.header-name-image a:hover {
-    opacity: 0.6;
-    background-color: brown;
-}
-
-.header-name-image.show {
-    display: flex;
-}
-.header-profile-option{
-    display: inline;
-}
-.header-profile-option{
-    margin-right: 10px;
-}
-.header-profile-option-btn{
-cursor: pointer;
-border-radius: 50%;
-padding-bottom: 2px;
-}
-.header-profile-option-btn img{
-    cursor: pointer;
-    border-radius: 50% 
-}
-
-.header-name-image div {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
-    font-weight: 100;
-    padding: 10px;
-    border-bottom: 1px solid #555;
-}
-
-.header-name-image a:last-child {
-    border-bottom: none;
-}
-.header-profile-img {
-    margin-right: 10px;
-}
+    .header-name-image.show button{
+        width: 100px;
+        height: 40px;
+        font-size: 12px;
+    }
 }

@@ -1,5 +1,6 @@
 import { client } from "../config/radis_connection";
 import { envFile } from "../config/envFile";
+import { commonMessage } from "../utils/commonMessage";
 
 export const createModel=async(modelName:any,data:any)=>{
     const Model=modelName
@@ -7,11 +8,10 @@ export const createModel=async(modelName:any,data:any)=>{
 }
 
 export const find=async(key:string,modelName:any,data:any)=>{ 
-  console.log("Find",key,modelName,data)
     let getUser;  
     let cacheKey=`${key}_${data._id||data.email||data.userId}`
     getUser = await client.get(cacheKey);
-        if (getUser) {
+        if (getUser && key!=commonMessage.commonRadisCacheKey.USER_REGISTOR_DETAIL_BY_KEY) {
           return JSON.parse(getUser);
         } else {
            getUser = await modelName.findOne(data)

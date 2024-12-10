@@ -56,7 +56,6 @@ export const userRegistrationInputSchema = Joi.object({
     "string.max": "Description cannot exceed 500 characters.",
   }),
 });
-
 // Schema for loginInput
 export const loginInputSchema = Joi.object({
   email: Joi.string().email()

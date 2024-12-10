@@ -1,0 +1,39 @@
+/* Popup container */
+.success-popup {
+    position: fixed;
+    top: 20px;
+    right: -300px; /* Start off-screen */
+    background-color: #4caf50; /* Green color */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 1000;
+    animation: slide-in 0.5s forwards, slide-out 0.5s 3s forwards; /* Slide in and out */
+  }
+  
+  /* Slide in from right */
+  @keyframes slide-in {
+    to {
+      right: 20px; /* Slide into view */
+    }
+  }
+  
+  /* Slide out to right */
+  @keyframes slide-out {
+    to {
+      right: -300px; /* Slide out of view */
+    }
+  }
+  
+  /* Close button */
+  .success-popup button {
+    background: none;
+    color: white;
+    border: none;
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

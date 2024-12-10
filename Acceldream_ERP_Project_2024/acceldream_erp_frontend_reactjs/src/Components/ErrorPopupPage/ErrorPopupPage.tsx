@@ -1,7 +1,8 @@
 import React from "react";
 import "./ErrorPopupPage.css"; // Optional: Add custom styles
 
-const ErrorPopupPage = ({ message, onClose }:{message:string,onClose}) => {
+
+const ErrorPopupPage = ({ message, onClose }:{message:string;onClose:()=>void;}) => {
   if (!message) return null;
 
   return (

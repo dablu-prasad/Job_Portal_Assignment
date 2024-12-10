@@ -30,7 +30,7 @@ export const resolvers = {
         InputValidation(userRegistrationInputSchema, userInput)
         // Check if user already exists
         const existingUser = await find(
-          commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY,
+          commonMessage.commonRadisCacheKey.USER_REGISTOR_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
           { email }
         );
@@ -112,7 +112,8 @@ export const resolvers = {
           commonMessage.commonModelCacheKey.USER_MODEL,
           { email }
         );
-        if (existingUser && (existingUser.otp == Number(otp) || Number(otp) == 123456)) {
+        console.log("existingUser",existingUser)
+        if (existingUser && (Number(existingUser.otp) == Number(otp) || Number(otp) == 123456)) {
           await findByIdAndUpdate(
             commonMessage.commonModelCacheKey.USER_MODEL,
             existingUser._id,

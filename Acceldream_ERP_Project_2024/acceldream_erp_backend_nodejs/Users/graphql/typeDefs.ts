@@ -27,7 +27,6 @@ input UserInput {
     password: String!
     mobile: String!
     description: String
-    image: Upload!
 }
 
 input EditUserInput {
