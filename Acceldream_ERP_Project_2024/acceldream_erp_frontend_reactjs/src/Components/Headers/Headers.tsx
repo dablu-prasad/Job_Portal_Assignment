@@ -7,6 +7,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { USER_QUERY } from "../../Graphql/querys";
 import LogoutPage from "../LogoutPage/LogoutPage";
+import EditProfilePage from "../EditProfilePage/EditProfilePage";
+import { EditFormError } from "../../types/types";
+import ResetPasswordPage from "../ResetPasswordPage/ResetPasswordPage";
 
 const Headers = () => {
     const { data, } = useQuery(USER_QUERY, getAuthHeaders());
@@ -16,6 +19,9 @@ const Headers = () => {
     const [openRegModal, setRegOpenModal] = useState(false);
     const [openLogModal, setLogOpenModal] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isResetPassPopupOpen,setIsResetPassPopupOpen]=useState(false)
+
     const navigate = useNavigate();
     const handleLogout = () => {
         setShowPopup(true);
@@ -47,13 +53,19 @@ const Headers = () => {
     const toggleProfileMenu = () => {
         setProfileMenu(!profileMenu);
     };
-
-    const onClickEditProfile = () => {
-
-    }
+const onClickEditProfile=()=>{
+setIsPopupOpen(true)
+setProfileMenu(!profileMenu)
+}
     const onClickResetPassword = () => {
-
+        setIsResetPassPopupOpen(true)
+        setProfileMenu(!profileMenu)
     }
+
+    const handleUpdateUser = (updatedUser: EditFormError) => {
+        console.log("Updated User Data:", updatedUser);
+    };
+
 
 
     //   if (loading) return <div className="loader">Loading...</div>;
@@ -101,14 +113,22 @@ const Headers = () => {
                         <div className={`header-name-image ${profileMenu ? "show" : ""}`}>
                             <div className="header-edit-profile">
                                 <button onClick={onClickEditProfile}>Edit Profile</button>
+                                <EditProfilePage
+                                    isOpen={isPopupOpen}
+                                    onClose={() => setIsPopupOpen(false)}
+                                />
                             </div>
                             <div className="header-reset-password">
                                 <button onClick={onClickResetPassword}>Reset Password</button>
+                                <ResetPasswordPage
+                                    isOpen={isResetPassPopupOpen}
+                                    onClose={() => setIsResetPassPopupOpen(false)}
+                                />
                             </div>
                             <div className="logout-div">
                                 <button onClick={handleLogout}>
                                     Logout
-                                    </button>
+                                </button>
 
                                 {showPopup && (
                                     <LogoutPage onConfirm={confirmLogout} onCancel={cancelLogout} />

@@ -1,0 +1,79 @@
+
+  .edit-user-modal {
+    background: #ccc;
+    border-radius: 8px;
+    margin-top: 69px;
+    width: 40%;
+    height: 85%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: scroll;
+  }
+  
+  .edit-user-container {
+    display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        justify-content:flex-start; 
+  }
+  .edit-user-container h2{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .edit-user-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+  }
+  
+  .edit-user-form label {
+    margin-top: 10px;
+    font-weight: bold;
+    margin-left: 10px
+  }
+  
+  .edit-user-form input,
+  .edit-user-form textarea {
+    margin: 12px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .avatar-container img{
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    width: 30%;
+    display: block;
+  }
+  .form-buttons {
+    display: flex;
+    justify-content:space-evenly;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .save-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+    height: 20%;
+  }
+  
+  .cancel-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+    height: 20%;
+  }
+  

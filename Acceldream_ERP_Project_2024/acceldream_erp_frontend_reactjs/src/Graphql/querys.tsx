@@ -4,8 +4,12 @@ query{
  userDetails{
     _id,
     userName,
+    firstName,
+    lastName,
     email,
-    mobile
+    mobile,
+    description,
+    image
  } 
 }
 `
