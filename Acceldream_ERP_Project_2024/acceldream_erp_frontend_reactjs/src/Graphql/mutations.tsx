@@ -28,6 +28,20 @@ mutation VerifyOTP($email:String!,$mobile:String!,$otp:String!) {
     success
   }
 }
+`;
+export const EDIT_PROFILE=gql`
+mutation ($file:Upload!){
+editUser(ID:$ID,editUserInput:{userName:$userName,email:$email,mobile:$mobile,firstName:$firstName,lastName:$lastName,description:$description,image:$file}){
+success,
+message
+}
+}
 `
-
-
+export const RESET_PASSWORD=gql`
+mutation resetPassword($currentPassword:String!,$newPassword:String!,$confirmNewPassword:String!){
+resetPassword(ID:$ID,resetPasswordInput:{currentPassword:$currentPassword,newPassword:$newPassword,confirmNewPassword:$confirmNewPassword}){
+success,
+message
+}
+}
+`

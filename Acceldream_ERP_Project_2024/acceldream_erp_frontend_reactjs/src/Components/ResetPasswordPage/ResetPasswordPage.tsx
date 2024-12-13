@@ -34,12 +34,12 @@ const ResetPasswordPage : React.FC<ResetPasswordPageProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="edit-user-modal"
-    //   overlayClassName="edit-user-overlay"
+      className="reset-user-modal"
+    //   overlayClassName="reset-user-overlay"
     >
-      <div className="edit-user-container">
+      <div className="reset-user-container">
         <h2>Reset Password</h2>
-        <form onSubmit={handleSubmit} className="edit-user-form">
+        <form onSubmit={handleSubmit} className="reset-user-form">
           <label>Current Password</label>
           <input
             type="text"
@@ -66,9 +66,9 @@ const ResetPasswordPage : React.FC<ResetPasswordPageProps> = ({
             onChange={handleChange}
             required
           />
-          <div className="form-buttons">
-            <button type="submit" className="save-button">Reset Password</button>
-            <button type="button" className="cancel-button" onClick={onClose}>Cancel</button>
+          <div className="reset-form-buttons">
+            <button type="submit" className="reset-save-button">Reset Password</button>
+            <button type="button" className="reset-cancel-button" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>

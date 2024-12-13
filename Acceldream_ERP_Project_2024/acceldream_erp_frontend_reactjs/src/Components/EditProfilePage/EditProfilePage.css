@@ -3,35 +3,69 @@
     background: #ccc;
     border-radius: 8px;
     margin-top: 69px;
-    width: 40%;
-    height: 85%;
+    width: 90%;
+    height: 80%;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    overflow-y: scroll;
   }
   
   .edit-user-container {
-    display: flex;
+       display: flex;
         flex-direction: column;
-        /* align-items: center; */
-        justify-content:flex-start; 
+        justify-content:center; 
   }
   .edit-user-container h2{
     display: block;
     margin-right: auto;
     margin-left: auto;
   }
+  .avatar-container{grid-area: image;}
+  .edit-profile-details{grid-area: profile-detail;}
+  .form-buttons{grid-area: form-button;}
   .edit-user-form{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    display: grid;
+    grid-template-areas:
+    'image profile-detail profile-detail profile-detail profile-detail'
+    'image profile-detail profile-detail profile-detail profile-detail'
+    'image profile-detail profile-detail profile-detail profile-detail'
+    'image form-button form-button form-button form-button'
+    'image form-button form-button form-button form-button';
+  }
+
+  .edit-profile-details{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  }
+  .avatar-container h3,
+  .avatar-container input
+  {
+    text-align: center;
+  }
+  .edit-profile-details div {
+    display: flex; /* Aligns children (label and input) in a horizontal row */
+    flex-wrap: wrap; /*Ensures proper wrapping on small screens*/
+    align-items: center; /* Vertically aligns the label and input */
+    margin-bottom: 15px; /* Adds spacing between rows */
+    gap: 10px; /* Adds horizontal spacing between label and input */
   }
   
+  .edit-profile-details label {
+    flex-shrink: 0; /*Prevents the label from shrinking if the input grows*/
+    width: 100px;  
+}
+  
+  .edit-profile-details input {
+    flex-shrink: 0; /*Prevents the label from shrinking if the input grows*/
+    flex-grow: 1; 
+    width: 200px; /* Ensures a minimum width for inputs */
+  }
+  
+  
   .edit-user-form label {
-    margin-top: 10px;
+    margin-top: 20px;
     font-weight: bold;
-    margin-left: 10px
   }
   
   .edit-user-form input,
@@ -40,12 +74,15 @@
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-left: 10px;
+    margin-right: 30px;
   }
+ 
   .avatar-container img{
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
-    width: 30%;
+    width: 50%;
     display: block;
   }
   .form-buttons {
@@ -64,7 +101,13 @@
     cursor: pointer;
     width: 30%;
     height: 20%;
+    padding: 15px 20px;
+    font-size: medium;
+    font-style: inherit;
+    width: 20%;
+    height: 100%;
   }
+
   
   .cancel-button {
     background-color: #f44336;
@@ -73,7 +116,46 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 30%;
-    height: 20%;
+    padding: 15px 20px;
+    font-size: medium;
+    font-style: inherit;
+    width: 20%;
+    height: 100%;
   }
   
+  .error-text{
+    color: red;
+    margin-top: 0;
+  }
+
+  @media(max-width:650px){
+    
+  .edit-user-modal {
+    height: 80%;
+    overflow-y: scroll;
+  }
+  
+  .edit-user-form{
+    display: grid;
+    grid-template-areas:
+    'image'
+    'profile-detail'
+    'button';
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .edit-profile-details{
+    grid-template-columns: auto;
+  }
+  .form-buttons {
+  gap:10px
+  }
+  .save-button {
+    width: 50%;
+  }
+  .cancel-button {
+    width: 50%;
+  }
+  
+  }
