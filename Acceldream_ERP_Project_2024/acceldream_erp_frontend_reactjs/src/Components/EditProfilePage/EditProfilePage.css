@@ -4,10 +4,11 @@
     border-radius: 8px;
     margin-top: 69px;
     width: 90%;
-    height: 80%;
+    height: 70%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    overflow-y: scroll;
   }
   
   .edit-user-container {
@@ -20,7 +21,10 @@
     margin-right: auto;
     margin-left: auto;
   }
-  .avatar-container{grid-area: image;}
+  .avatar-container{
+    grid-area: image;
+  
+  }
   .edit-profile-details{grid-area: profile-detail;}
   .form-buttons{grid-area: form-button;}
   .edit-user-form{

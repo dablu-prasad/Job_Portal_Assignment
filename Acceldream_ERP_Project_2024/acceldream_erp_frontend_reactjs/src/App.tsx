@@ -7,6 +7,7 @@ import DashboardPage from './Components/DashboardPage/DashboardPage';
 import OTPVerificationPage from './Components/OTPVerificationPage/OTPVerificationPage';
 
 export const App: React.FC = () => {
+
   return (
     <Router>
       <Routes>

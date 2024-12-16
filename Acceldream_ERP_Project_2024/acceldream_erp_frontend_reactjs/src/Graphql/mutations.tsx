@@ -29,19 +29,51 @@ mutation VerifyOTP($email:String!,$mobile:String!,$otp:String!) {
   }
 }
 `;
-export const EDIT_PROFILE=gql`
-mutation ($file:Upload!){
-editUser(ID:$ID,editUserInput:{userName:$userName,email:$email,mobile:$mobile,firstName:$firstName,lastName:$lastName,description:$description,image:$file}){
-success,
-message
+export const EDIT_PROFILE = gql`
+mutation editUser(
+    $ID: ID!
+    $userName: String!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $mobile: String!
+    $description: String!
+    $image: Upload!
+) {
+    editUser(
+        ID: $ID
+        editUserInput: {
+            userName: $userName
+            firstName: $firstName
+            lastName: $lastName
+            email: $email
+            mobile: $mobile
+            description: $description
+            image: $image
+        }
+    ) {
+        success
+        message
+    }
 }
-}
-`
+`;
 export const RESET_PASSWORD=gql`
-mutation resetPassword($currentPassword:String!,$newPassword:String!,$confirmNewPassword:String!){
-resetPassword(ID:$ID,resetPasswordInput:{currentPassword:$currentPassword,newPassword:$newPassword,confirmNewPassword:$confirmNewPassword}){
-success,
-message
+mutation ResetPassword(
+  $ID: ID!, 
+  $currentPassword: String!, 
+  $newPassword: String!, 
+  $confirmNewPassword: String!
+) {
+  resetPassword(
+    ID: $ID, 
+    resetPasswordInput: {
+      currentPassword: $currentPassword, 
+      newPassword: $newPassword, 
+      confirmNewPassword: $confirmNewPassword
+    }
+  ) {
+    success
+    message
+  }
 }
-}
-`
+`;

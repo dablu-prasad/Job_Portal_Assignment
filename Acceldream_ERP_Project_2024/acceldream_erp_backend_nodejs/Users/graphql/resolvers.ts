@@ -142,7 +142,7 @@ export const resolvers = {
         if (!userData || context.user._id.toString() != ID.toString()) {
           throw new Error('User does not exist');
         }
-        let imageUrl = userData.image != null ? userData.image : await uploadFile(editUserInput.image.file)
+        let imageUrl = editUserInput.image.file!=undefined ? await uploadFile(editUserInput.image.file) :  userData.image 
         editUserInput.image = imageUrl
         await findByIdAndUpdate(
           commonMessage.commonModelCacheKey.USER_MODEL,
@@ -160,7 +160,9 @@ export const resolvers = {
     async resetPassword(_: any, { ID, resetPasswordInput }: { ID: string, resetPasswordInput: ResetPassword }, context: any) {
       try {
         const { currentPassword, newPassword, confirmNewPassword } = resetPasswordInput
+        console.log("ddd",resetPasswordInput)
         InputValidation(resetPasswordInputSchema, resetPasswordInput)
+        console.log("kkk",resetPasswordInput)
         if (!context.user) throw new Error(context.msg)
         const userData = await find(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { _id: context.user._id })
         if (!userData || context.user._id.toString() != ID.toString()) {

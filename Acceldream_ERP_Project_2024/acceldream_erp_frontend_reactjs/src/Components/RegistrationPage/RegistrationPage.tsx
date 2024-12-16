@@ -143,7 +143,7 @@ function RegistrationPage({ openRegistorForm, setOpenRegistorForm }: { openRegis
         {formError.mobile && <p className="error-text">{formError.mobile}</p>}
 
         <button type="submit" className="register-btn" disabled={loading}>
-        {loading ? <div className="loader"></div> : "Register"}  
+        {loading ? <div className="loader"></div> : "Submit Request"}  
         </button>
         {errorMessage && <ErrorPopupPage message={errorMessage} onClose={closeErrorPopup} />}
         {successMessage && <SuccessPopupPage message={successMessage} onClose={closeSuccessPopup} />}

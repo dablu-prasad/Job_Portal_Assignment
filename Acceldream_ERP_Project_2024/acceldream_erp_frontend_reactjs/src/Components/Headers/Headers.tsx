@@ -21,7 +21,6 @@ const Headers = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isResetPassPopupOpen,setIsResetPassPopupOpen]=useState(false)
-
     const navigate = useNavigate();
     const handleLogout = () => {
         setShowPopup(true);
@@ -61,15 +60,6 @@ setProfileMenu(!profileMenu)
         setIsResetPassPopupOpen(true)
         setProfileMenu(!profileMenu)
     }
-
-    const handleUpdateUser = (updatedUser: EditFormError) => {
-        console.log("Updated User Data:", updatedUser);
-    };
-
-
-
-    //   if (loading) return <div className="loader">Loading...</div>;
-    //   if (error) return <div className="error">Error: {error.message}</div>;
 
     return (
         <div className="header-container">
@@ -121,6 +111,7 @@ setProfileMenu(!profileMenu)
                             <div className="header-reset-password">
                                 <button onClick={onClickResetPassword}>Reset Password</button>
                                 <ResetPasswordPage
+                                    ID={data?.userDetails?._id}
                                     isOpen={isResetPassPopupOpen}
                                     onClose={() => setIsResetPassPopupOpen(false)}
                                 />
