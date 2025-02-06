@@ -9,12 +9,21 @@ type User {
     userName: String
     firstName: String
     lastName: String
-    email: String!
-    password: String
-    mobile: String!
+    email: String
+    mobile: String
+    user_designation: String
+    approval_manager: String
+    company_dealer_name: String
+    branch: String
+    address: String
+    state: String
+    city: String
+    pin: String
+    country: String
+    module: String
     description: String
-    image: String
     token: String
+    image:String
     success: Boolean
     message: String
 }
@@ -24,8 +33,17 @@ input UserInput {
     firstName: String!
     lastName: String!
     email: String!
-    password: String!
     mobile: String!
+    user_designation: String
+    approval_manager: String
+    company_dealer_name: String
+    branch: String
+    address: String
+    state: String
+    city: String
+    pin: String
+    country: String
+    module: String
     description: String
 }
 
@@ -57,6 +75,7 @@ input LoginInput {
 
 type Query {
     userDetails: User
+    users: [User]
 }
 
 type Mutation {

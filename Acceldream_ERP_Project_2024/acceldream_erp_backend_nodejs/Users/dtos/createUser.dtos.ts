@@ -22,7 +22,16 @@ export interface UserInput {
     firstName:string;
     lastName:string;
     email: string;
-    password: string;
+    user_designation: string;
+    approval_manager: string;
+    company_dealer_name: string;
+    branch: string;
+    address: string;
+    state: string;
+    city: string;
+    pin: string;
+    country: string;
+    module: string;
     mobile?: string;
     description?: string;
   }

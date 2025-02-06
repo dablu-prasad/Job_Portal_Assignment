@@ -1,3 +1,5 @@
+import cluster from 'cluster';
+import os from 'os';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
@@ -6,13 +8,14 @@ import cors from 'cors';
 import { typeDefs } from "./graphql/typeDefs";
 import { resolvers } from "./graphql/resolvers";
 import { connectDB } from './config/mongodbConnect';
-import { client } from './config/radis_connection'
-import {context, upload} from './middleware/authMiddleware';
-import path from "path"
-const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
+import { client } from './config/radis_connection';
+import { context, upload } from './middleware/authMiddleware';
+import path from "path";
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { envFile } from './config/envFile';
-import morgan from "morgan"
+import morgan from "morgan";
 const {graphqlUploadExpress} = require('graphql-upload');
+
 interface MyContext {
   token?: string; 
 }
@@ -26,6 +29,21 @@ declare global {
     }
   }
 }
+const numCPUs = os.cpus().length;  // Get number of CPU cores
+
+if (cluster.isPrimary) {
+  console.log(`Primary process ${process.pid} is running`);
+  // Fork worker processes for each CPU core
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+  // Handle worker exit and restart if necessary
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died. Restarting...`);
+    cluster.fork();
+  });
+} else {
+  // Worker processes will run the server
 const app = express();
 app.use(morgan('dev'));
 const httpServer = http.createServer(app);
@@ -78,3 +96,4 @@ app.use(function(req, res, next) {
 connectDB();  // Connect to MongoDB Database
 client.connect();  // Connect to Redis
 ApolloServerConnection()
+}

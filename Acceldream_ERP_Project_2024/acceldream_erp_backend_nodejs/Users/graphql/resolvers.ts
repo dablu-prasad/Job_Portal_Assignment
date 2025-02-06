@@ -2,14 +2,14 @@ import GraphQLUpload from "graphql-upload";
 import { EditUserInput, InputAdminJobList, InputJobList, LoginInput, OtpVerifyInput, ResetPassword, UserInput } from "../dtos/createUser.dtos";
 import { generateOTP, hashedPassword, matchPassword, sendEmail, token } from "../utils/commonMethod";
 import { commonMessage } from "../utils/commonMessage";
-import { createModel, find, findByIdAndUpdate } from "../services/userServices";
+import { createModel, find, findAll, findByIdAndUpdate } from "../services/userServices";
 import { InputValidation } from "../middleware/inputValidation";
 import { loginInputSchema, resetPasswordInputSchema, userEditInputSchema, userRegistrationInputSchema } from "../middleware/joiValidation";
 import { uploadFile } from "../middleware/authMiddleware";
 
 export const resolvers = {
   Upload: GraphQLUpload,
-
+                                                             
   Query: {
     // Add Queries as needed, currently commented out for future use.
     async userDetails(_: any, { }, context: any) {
@@ -20,33 +20,41 @@ export const resolvers = {
         throw new Error(`${error}`);
       }
     },
+    // Add User Details
+    async users(_: any, { }, context: any) {
+      try {
+        let moduleKey;
+        if (!context.user) throw new Error(context.msg)
+        const adminDetail= await find(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, { _id: context.user._id })
+      switch(adminDetail.module)
+      {
+        case "admin":
+          moduleKey={}
+          break;
+        case "manager":
+          moduleKey={company_dealer_name:adminDetail.company_dealer_name}  
+      }
+      let data= await findAll(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, moduleKey)
+    return await findAll(commonMessage.commonRadisCacheKey.USER_DETAIL_BY_KEY, commonMessage.commonModelCacheKey.USER_MODEL, moduleKey)
+    } catch (error) {
+        throw new Error(`${error}`);
+      }
+    },
   },
 
   Mutation: {
     // Register mutation
     async userRegister(_: any, { userInput }: { userInput: UserInput }) {
       try {
-        const { userName, firstName, lastName, email, password, mobile, description } = userInput;
         InputValidation(userRegistrationInputSchema, userInput)
         // Check if user already exists
         const existingUser = await find(
           commonMessage.commonRadisCacheKey.USER_REGISTOR_DETAIL_BY_KEY,
           commonMessage.commonModelCacheKey.USER_MODEL,
-          { email }
+          { email:userInput.email }
         );
         if (existingUser) throw new Error("User already exists");
-        // Generate OTP and create a new user
-        const otp = generateOTP();
-        const newUser = await createModel(commonMessage.commonModelCacheKey.USER_MODEL, {
-          userName,
-          firstName,
-          lastName,
-          email,
-          password: await hashedPassword(password),
-          mobile,
-          description,
-          otp,
-        });
+        const newUser = await createModel(commonMessage.commonModelCacheKey.USER_MODEL,userInput);
 
         // Send OTP via email
         // await sendEmail({
@@ -56,6 +64,7 @@ export const resolvers = {
         // });
 
         return {
+          message:"Request has been sent to manager for approval",
           _id: newUser._id,
           userName: newUser.userName,
           email: newUser.email,

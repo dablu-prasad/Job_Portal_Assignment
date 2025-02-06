@@ -1,0 +1,298 @@
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    /* Removed duplicate background-color */
+    color: #fff;
+    /* padding: 10px 20px; Fixed padding syntax (comma replaced with space) */
+    position: fixed;
+    width: 100%;
+    margin-top: 0;
+    z-index: 1;
+    height: 60px;
+}
+
+.header-container img {
+    height: 40px;
+    margin-top: 10px;
+}
+
+
+.header-menu-options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.login-register-btn {
+    background-color: darkcyan;
+    margin: 0;
+    border: 3px solid rgb(169, 174, 169);
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.register-btn1,
+.login-btn1 {
+    background-color: #8c8b94;
+    width: 50%;
+    height: 50%;
+    margin: 3px;
+    padding: 10px;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    border: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    border: none;
+}
+
+.header-register-btn {
+    display: flex;
+    margin-right: 62px;
+    width: 30%;
+}
+
+
+.header-register-btn button:hover {
+    opacity: 0.6;
+}
+
+.header-register-btn button:active {
+    width: 50%;
+    height: 50%;
+    transform: translate(-1%, -1%);
+    background-color: rgb(173, 113, 123);
+}
+
+.header-menu-options a {
+    margin: 0;
+    cursor: pointer;
+    padding: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.header-menu-options a:hover {
+    opacity: 0.8;
+    background-color: burlywood;
+    top: 10px;
+}
+
+.hamburger-menu {
+    display: none;
+    font-size: 24px;
+    color: #fff;
+    background-color: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+.logout-btn {
+    width: 100px;
+    height: 40px;
+    background-color: lightseagreen;
+    color: white;
+    font-size: medium;
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 4px;
+    border-color: white;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    opacity: 0.6;
+}
+
+.logout-btn:active {
+    transform: translate(-1%, -1%);
+    opacity: 0.8;
+}
+
+.logout-div {
+    /* margin-top: 10px; */
+}
+
+.header-left {
+    display: flex;
+    justify-content: left;
+    text-align: center;
+    position: relative;
+    left: 20px;
+}
+
+.header-username {
+    width: 150px;
+    color: brown;
+}
+
+.header-right {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-right: 10px
+}
+
+
+.header-name-image {
+    display: none;
+}
+
+.header-name-image.show{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin: 0px 0px 2px 0px;
+        position: absolute;
+        top: 55px;
+        right: 1px;
+}
+
+.header-name-image.show button{
+    width: 120px;
+    height: 40px;
+    background-color: #ddd;
+    cursor: pointer;
+    border-color: rgb(226, 231, 231);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: ui-sans-serif;
+    color: black;
+    font-style: normal;
+    padding: 5px;
+}
+
+.header-name-image.show button:hover{
+    opacity: 0.6;
+    background-color: #8c8b94;
+}
+.header-name-image.show button::after{
+    opacity: 0.8
+}
+.header-name-image.show:last-child{
+    border-bottom: #333;
+}
+
+.header-profile-img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.header-left-hamburger {
+    display: none;
+}
+
+.header-profile-option {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-profile-option-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.header-edit-profile {}
+
+.header-reset-password {}
+
+@media (max-width:650px) {
+    .header-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .header-container img {
+        height: 30px;
+        margin-top: 10px;
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .header-menu-options {
+        display: none;
+        flex-direction: column;
+        background-color: #555;
+        position: absolute;
+        top: 46px;
+        right: 12px;
+        left: 100px;
+        width: 80px;
+        background-color: #333;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px;
+        border-style: solid;
+        border-color: #fff;
+        margin-top: 2px;
+    }
+
+    .header-menu-options a:hover {
+        opacity: 0.6;
+        background-color: brown;
+    }
+
+    .header-menu-options.show {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header-menu-options a {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 100;
+        padding: 15px;
+        border-bottom: 1px solid #555;
+    }
+
+    .header-menu-options a:last-child {
+        border-bottom: none;
+    }
+
+    .header-left-hamburger {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 10px;
+        border-radius: 10px
+    }
+
+    .header-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .header-hamburger-btn {
+        margin-left: 100px;
+        position: absolute;
+    }
+
+    .header-hamburger-btn img {
+        height: 30px;
+        border: 5px;
+        border-radius: 10px;
+    }
+
+    .header-name-image.show button{
+        width: 100px;
+        height: 40px;
+        font-size: 12px;
+    }
+}

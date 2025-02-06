@@ -31,24 +31,84 @@ export const userRegistrationInputSchema = Joi.object({
     "string.email": "Email must be a valid email address.",
     "any.required": "Email is required.",
   }),
-  password: Joi.string()
-    .min(8)
-    .max(128)
-    .empty("") // Treat empty strings as invalid
-    .pattern(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$"))
-    .required()
-    .messages({
-      "string.min": "Password must be at least 8 characters long.",
-      "string.max": "Password cannot exceed 128 characters.",
-      "string.pattern.base":
-        "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
-      "any.required": "Password is required.",
-    }),
+  
   mobile: Joi.string()
   .empty("") // Treat empty strings as invalid
+  .max(10)
   .pattern(/^[0-9]{10}$/).required().messages({
     "string.pattern.base": "Mobile must be a valid 10-digit number.",
     "any.required": "Mobile number is required.",
+  }),
+  user_designation: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "User designation must be a string.",
+    "string.pattern.base": "User designation must only contain letters.",
+    "any.required": "User designation is required.",
+  }),
+  approval_manager: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "Approval manager must be a string.",
+    "string.pattern.base": "Approval manager must only contain letters.",
+    "any.required": "Approval manager is required.",
+  }),
+  company_dealer_name: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "Company dealer name must be a string.",
+    "string.pattern.base": "Company dealer name must only contain letters.",
+    "any.required": "Company dealer name is required.",
+  }),
+  branch: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "Bench must be a string.",
+    "string.pattern.base": "Bench must only contain letters.",
+    "any.required": "Bench is required.",
+  }),
+  address: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .max(100).optional().messages({
+    "string.max": "Description cannot exceed 500 characters.",
+  }),
+  state: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "State must be a string.",
+    "string.pattern.base": "State must only contain letters.",
+    "any.required": "State is required.",
+  }),
+  city: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "City must be a string.",
+    "string.pattern.base": "City must only contain letters.",
+    "any.required": "City is required.",
+  }),
+  pin: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .length(6) // Ensure exactly 6 characters
+  .pattern(/^[0-9]{6}$/) // Regex for exactly 6 digits
+  .required()
+  .messages({
+    "string.pattern.base": "Pin must be a valid 6-digit number.",
+    "any.required": "Pin number is required.",
+  }),
+
+  country: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "Country must be a string.",
+    "string.pattern.base": "Country must only contain letters.",
+    "any.required": "Country is required.",
+  }),
+  module: Joi.string()
+  .empty("") // Treat empty strings as invalid
+  .regex(/^[a-zA-Z]+$/).required().messages({
+    "string.base": "Module must be a string.",
+    "string.pattern.base": "Module must only contain letters.",
+    "any.required": "Module is required.",
   }),
   description: Joi.string()
   .empty("") // Treat empty strings as invalid

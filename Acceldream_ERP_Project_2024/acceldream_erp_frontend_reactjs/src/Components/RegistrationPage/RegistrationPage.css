@@ -41,6 +41,14 @@
     font-size: 14px;
     outline: none;
   }
+  .registor-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    background-color: #b9b6b6;
+  }
   
   .registor-form input:focus {
     border-color: #007bff;

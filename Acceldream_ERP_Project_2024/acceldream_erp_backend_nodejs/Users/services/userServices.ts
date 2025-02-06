@@ -20,6 +20,19 @@ export const find=async(key:string,modelName:any,data:any)=>{
         }
 }
 
+export const findAll=async(key:string,modelName:any,data:any)=>{ 
+  let getUser;  
+  let cacheKey=`findAll_${key}_${data._id||data.email||data.userId}`
+  getUser = await client.get(cacheKey);
+      if (getUser && key!=commonMessage.commonRadisCacheKey.USER_REGISTOR_DETAIL_BY_KEY) {
+        return JSON.parse(getUser);
+      } else {
+         getUser = await modelName.find(data)
+        await client.set(cacheKey, JSON.stringify(getUser), { 'EX': envFile.RADIS_EXPIRY_TIME });
+        return getUser
+      }
+}
+
 export const findByIdAndUpdate =async(modelName:any,id:any,updateData:any)=>{ 
     return await modelName.findByIdAndUpdate(id, updateData, {new: true});
 }

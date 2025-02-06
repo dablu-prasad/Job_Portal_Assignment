@@ -3,8 +3,17 @@ export type FormError = {
     firstname?: string;
     lastname?: string;
     email?: string;
-    password?: string;
     mobile?: string;
+    company_dealer_name?:string;
+    branch?:string;
+    address?:string;
+    state?:string;
+    city?:string;
+    country?:string;
+    pin?:string;
+    module?:string;
+    user_designation?:string;
+    approval_manager?:string;
   };
   export type EditFormInput = {
     userName?: string;
